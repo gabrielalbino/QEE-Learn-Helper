@@ -18,6 +18,8 @@ public class JanelaPrincipal extends JFrame {
 
 	public JanelaPrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("APRENDA QEE");
+		setResizable(false);
 		setBounds(100, 100, 350, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -31,23 +33,32 @@ public class JanelaPrincipal extends JFrame {
 		contentPane.add(title);
 		
 		JButton btnSFPH = new JButton("Simular fluxo de pot\u00EAncia harm\u00F4nico");
+		btnSFPH.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnSFPH.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 			}
 		});
-		btnSFPH.setBounds(50, 80, 250, 40);
+		btnSFPH.setBounds(50, 140, 250, 40);
 		contentPane.add(btnSFPH);
 		
 		JButton btnSFPF = new JButton("Simular fluxo de pot\u00EAncia fundamental ");
+		btnSFPF.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnSFPF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				try {
+					JanelaUC2 frame = new JanelaUC2();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
-		btnSFPF.setBounds(50, 140, 250, 40);
+		btnSFPF.setBounds(50, 80, 250, 40);
 		contentPane.add(btnSFPF);
 		
 		JButton btnSDH = new JButton("Simular distor\u00E7\u00E3o harm\u00F4nica");
+		btnSDH.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnSDH.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
