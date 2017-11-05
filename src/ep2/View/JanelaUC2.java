@@ -1,502 +1,361 @@
 package ep2.View;
 
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import ep2.Controller.CalculaFormaOnda;
-import ep2.Controller.GraphPanel;
-import ep2.Controller.calculaValorPotencia;
-
-import java.awt.Component;
-import java.awt.GridLayout;
-import java.awt.SystemColor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.SpinnerNumberModel;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.security.InvalidParameterException;
+import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import javax.swing.JOptionPane;
+import javax.swing.border.TitledBorder;
+
+import ep2.Controller.CalculosUC2;
+import ep2.Controller.GraphPanel;
+import ep2.Controller.TrianguloDraw;
+
+import java.awt.GridLayout;
+import java.awt.Color;
+import java.awt.Font;
 
 @SuppressWarnings("serial")
 public class JanelaUC2 extends JFrame {
 
+	GraphPanel graphPanelCorrente;
+	GraphPanel graphPanelTensao;
+	GraphPanel graphPanelPotInst;
+	
+	TrianguloDraw triangDraw;
+	
 	private JPanel contentPane;
+	private JTextField textAngTensao;
+	private JTextField textAmpTensao;
+	private JTextField textAngCorrente;
+	private JTextField textAmpCorrente;
 	private JTextField textPotAtiva;
 	private JTextField textPotReativa;
 	private JTextField textPotAparente;
-	private JTextField textFatorDePotencia;
-	
-	private List<Double> valoresFOTensao, valoresFOCorrente, valoresFOPotenciaInst;
-	private GraphPanel graphPanelTensao, graphPanelCorrente, graphPanelPotenciaInst;
-	
+	private JTextField textFatPot;
+	/**
+	 * Create the frame.
+	 */
 	public JanelaUC2() {
-		CalculaFormaOnda FOTensao = new CalculaFormaOnda();
-		CalculaFormaOnda FOCorrente= new CalculaFormaOnda();
-		calculaValorPotencia VPCalculos = new calculaValorPotencia();
+		triangDraw = new TrianguloDraw(0,0,0,0);
+		graphPanelCorrente = null;
+		graphPanelTensao = null;
+		graphPanelPotInst = null;
 		
-		graphPanelTensao = new GraphPanel(new ArrayList<>());
-		graphPanelCorrente = new GraphPanel(new ArrayList<>());
-		graphPanelPotenciaInst = new GraphPanel(new ArrayList<>());
-		
-		JPanel panelGraficoCorrente = new JPanel();
-		panelGraficoCorrente.setLayout(new GridLayout(1, 1, 0, 0));
-		JPanel panelGraficoResultado = new JPanel();
-		panelGraficoResultado.setLayout(new GridLayout(1, 1, 0, 0));
-		JPanel panelGraficoTensao = new JPanel();
-		panelGraficoTensao.setLayout(new GridLayout(1, 1, 0, 0));
-		
-		textPotAtiva = new JTextField();
-		textPotReativa = new JTextField();
-		textPotAparente = new JTextField();
-		textFatorDePotencia = new JTextField();
-		
-		JPanel contentPanel = new JPanel();
-		contentPanel.setBackground(SystemColor.activeCaption);
-		
+		CalculosUC2 calcUC2 = new CalculosUC2();
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		setBounds(100, 100, 800, 600);
+		setBounds(100, 100, 1024, 768);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setBackground(SystemColor.activeCaption);
 		setContentPane(contentPane);
-		setTitle("Simular Fluxo de Pot\u00EAncia Fundamental");
 		contentPane.setLayout(null);
-		JInternalFrame EntradasTensaoFrame = new JInternalFrame("Entradas Tens\u00E3o");
-		EntradasTensaoFrame.setResizable(true);
-		EntradasTensaoFrame.setBounds(0, 11, 387, 302);
-		contentPane.add(EntradasTensaoFrame);
-		EntradasTensaoFrame.getContentPane().setLayout(new GridLayout(2, 1, 0, 0));
 		
-		JPanel panelEntradas1 = new JPanel();
-		EntradasTensaoFrame.getContentPane().add(panelEntradas1);
-		panelEntradas1.setLayout(new GridLayout(2, 0, 0, 0));
-		JSlider sliderAmplitudeTensao = new JSlider();
-		sliderAmplitudeTensao.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				valoresFOTensao = FOTensao.calculaL();
-				valoresFOCorrente = FOCorrente.calculaL();
-				valoresFOPotenciaInst = FOTensao.calculaFOPI(valoresFOCorrente, valoresFOTensao);
-				if (panelGraficoResultado.getComponentCount() > 0) {
-					Component c1 = panelGraficoResultado.getComponent(0);
-					if (c1 instanceof GraphPanel)
-						((GraphPanel) c1).setScores(valoresFOPotenciaInst);
-				}
-				if(panelGraficoTensao.getComponentCount() > 0) {
-					Component c2 = panelGraficoTensao.getComponent(0);
-					if (c2 instanceof GraphPanel)
-						((GraphPanel) c2).setScores(valoresFOTensao);
-				}
-				if(panelGraficoCorrente.getComponentCount() > 0) {
-					Component c3 = panelGraficoCorrente.getComponent(0);
-					if (c3 instanceof GraphPanel)
-						((GraphPanel) c3).setScores(valoresFOCorrente);
-				}
-			}
-		});
-		JPanel panelAmplitudeTensao = new JPanel();
-		panelEntradas1.add(panelAmplitudeTensao);
-		
-		JTextField textAmplitudeTensao = new JTextField();
-		
-		panelAmplitudeTensao.setBorder(new TitledBorder(null, "Amplitude", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		
-		sliderAmplitudeTensao.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent arg0) {
-				textAmplitudeTensao.setText(Integer.toString(sliderAmplitudeTensao.getValue()));
-				FOTensao.setVrms(sliderAmplitudeTensao.getValue());
-				VPCalculos.setVrms(sliderAmplitudeTensao.getValue());
-				textPotAtiva.setText(String.format("%.2f", VPCalculos.calculaA()));
-				textPotReativa.setText(String.format("%.2f", VPCalculos.calculaR()));
-				textPotAparente.setText(String.format("%.2f", VPCalculos.calculaPotAp()));
-				textFatorDePotencia.setText(String.format("%.2f", VPCalculos.calculaFatPot()));
-			}
-		});
-		panelAmplitudeTensao.setLayout(new GridLayout(1, 2, 0, 0));
-		sliderAmplitudeTensao.setValue(0);
-		sliderAmplitudeTensao.setMaximum(220);
-		panelAmplitudeTensao.add(sliderAmplitudeTensao);
-		panelAmplitudeTensao.add(textAmplitudeTensao);
-		textAmplitudeTensao.setColumns(10);
-		JPanel panelAnguloTensao = new JPanel();
-		panelEntradas1.add(panelAnguloTensao);
-		panelAnguloTensao.setBorder(new TitledBorder(null, "Ângulo", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelAnguloTensao.setLayout(new GridLayout(1, 1, 0, 0));
-		JSpinner spinnerAnguloTensao = new JSpinner();
-		panelAnguloTensao.add(spinnerAnguloTensao);
-		spinnerAnguloTensao.setModel(new SpinnerNumberModel(0, null, null, 1));
-		
-		JButton btnResetTensao = new JButton("reset");
-		panelAnguloTensao.add(btnResetTensao);
-
-		panelGraficoTensao.add(graphPanelTensao);
-		EntradasTensaoFrame.getContentPane().add(panelGraficoTensao);
-		btnResetTensao.addActionListener(new ActionListener() {
+		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				sliderAmplitudeTensao.setValue(0);
-				textAmplitudeTensao.setText("0");
-				spinnerAnguloTensao.setValue(0);
-				EntradasTensaoFrame.setBounds(0, 11, 387, 302);
-				FOTensao.setVrms(0);
-				FOTensao.setAng(0);
-				VPCalculos.setAngV(0);
-				VPCalculos.setVrms(0);
-				textPotAtiva.setText(String.format("%.2f", VPCalculos.calculaA()));
-				textPotReativa.setText(String.format("%.2f", VPCalculos.calculaR()));
-				textPotAparente.setText(String.format("%.2f", VPCalculos.calculaPotAp()));
-				textFatorDePotencia.setText(String.format("%.2f", VPCalculos.calculaFatPot()));
-				valoresFOTensao = FOTensao.calculaL();
-				valoresFOCorrente = FOCorrente.calculaL();
-				valoresFOPotenciaInst = FOTensao.calculaFOPI(valoresFOCorrente, valoresFOTensao);
-				if (panelGraficoResultado.getComponentCount() > 0) {
-					Component c1 = panelGraficoResultado.getComponent(0);
-					if (c1 instanceof GraphPanel)
-						((GraphPanel) c1).setScores(valoresFOPotenciaInst);
-				}
-				if(panelGraficoTensao.getComponentCount() > 0) {
-					Component c2 = panelGraficoTensao.getComponent(0);
-					if (c2 instanceof GraphPanel)
-						((GraphPanel) c2).setScores(valoresFOTensao);
-				}
-				if(panelGraficoCorrente.getComponentCount() > 0) {
-					Component c3 = panelGraficoCorrente.getComponent(0);
-					if (c3 instanceof GraphPanel)
-						((GraphPanel) c3).setScores(valoresFOCorrente);
-				}
+				dispose();
 			}
 		});
-		spinnerAnguloTensao.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent arg0) {
-				int value= (Integer) spinnerAnguloTensao.getValue();
-				if(value < -180 || value > 180) {
-					JOptionPane.showMessageDialog(null, "O valor deve estar entre -180º e 180º!", "Entrada inválida!", JOptionPane.ERROR_MESSAGE);
-					if(value < 0) spinnerAnguloTensao.setValue(-180);
-					else spinnerAnguloTensao.setValue(180);
-				}
-				else {
-					//atualizar as variaveis da classe de calculos
-					FOTensao.setAng(value);
-					VPCalculos.setAngV(value);
-					textPotAtiva.setText(String.format("%.2f", VPCalculos.calculaA()));
-					textPotReativa.setText(String.format("%.2f", VPCalculos.calculaR()));
-					textPotAparente.setText(String.format("%.2f", VPCalculos.calculaPotAp()));
-					textFatorDePotencia.setText(String.format("%.2f", VPCalculos.calculaFatPot()));
-					valoresFOTensao.clear();
-					valoresFOCorrente.clear();
-					valoresFOPotenciaInst.clear();
-					valoresFOTensao = FOTensao.calculaL();
-					valoresFOCorrente = FOCorrente.calculaL();
-					valoresFOPotenciaInst = FOTensao.calculaFOPI(valoresFOCorrente, valoresFOTensao);
-					if (panelGraficoResultado.getComponentCount() > 0) {
-						Component c1 = panelGraficoResultado.getComponent(0);
-						if (c1 instanceof GraphPanel)
-							((GraphPanel) c1).setScores(valoresFOPotenciaInst);
-					}
-					if(panelGraficoTensao.getComponentCount() > 0) {
-						Component c2 = panelGraficoTensao.getComponent(0);
-						if (c2 instanceof GraphPanel)
-							((GraphPanel) c2).setScores(valoresFOTensao);
-					}
-					if(panelGraficoCorrente.getComponentCount() > 0) {
-						Component c3 = panelGraficoCorrente.getComponent(0);
-						if (c3 instanceof GraphPanel)
-							((GraphPanel) c3).setScores(valoresFOCorrente);
-					}
-				}
-			}
-		});
-		textAmplitudeTensao.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int value = 0;
-				try {
-					value = Integer.parseInt(textAmplitudeTensao.getText());
-				}catch(NumberFormatException e) {
-					JOptionPane.showMessageDialog(null, "O valor deve ser um número!", "Entrada inválida!", JOptionPane.ERROR_MESSAGE);
-					textAmplitudeTensao.setText(Integer.toString(sliderAmplitudeTensao.getValue()));
-					value = sliderAmplitudeTensao.getValue();
-				}
-				if(value < 0 || value > 220) {
-					JOptionPane.showMessageDialog(null, "O valor deve estar entre 0 e 220!", "Entrada inválida!", JOptionPane.ERROR_MESSAGE);
-					textAmplitudeTensao.setText(Integer.toString(sliderAmplitudeTensao.getValue()));
-				}
-				else {
-					sliderAmplitudeTensao.setValue(value);
-					FOTensao.setVrms(value);
-					VPCalculos.setVrms(value);
-					textPotAtiva.setText(String.format("%.2f", VPCalculos.calculaA()));
-					textPotReativa.setText(String.format("%.2f", VPCalculos.calculaR()));
-					textPotAparente.setText(String.format("%.2f", VPCalculos.calculaPotAp()));
-					textFatorDePotencia.setText(String.format("%.2f", VPCalculos.calculaFatPot()));
-					valoresFOTensao = FOTensao.calculaL();
-					valoresFOCorrente = FOCorrente.calculaL();
-					valoresFOPotenciaInst = FOTensao.calculaFOPI(valoresFOCorrente, valoresFOTensao);
-					if (panelGraficoResultado.getComponentCount() > 0) {
-						Component c1 = panelGraficoResultado.getComponent(0);
-						if (c1 instanceof GraphPanel)
-							((GraphPanel) c1).setScores(valoresFOPotenciaInst);
-					}
-					if(panelGraficoTensao.getComponentCount() > 0) {
-						Component c2 = panelGraficoTensao.getComponent(0);
-						if (c2 instanceof GraphPanel)
-							((GraphPanel) c2).setScores(valoresFOTensao);
-					}
-					if(panelGraficoCorrente.getComponentCount() > 0) {
-						Component c3 = panelGraficoCorrente.getComponent(0);
-						if (c3 instanceof GraphPanel)
-							((GraphPanel) c3).setScores(valoresFOCorrente);
-					}
-				}
-			}
-		});
-		JInternalFrame EntradasCorrenteFrame = new JInternalFrame("Entradas Corrente");
-		EntradasCorrenteFrame.setResizable(true);
-		EntradasCorrenteFrame.setBounds(397, 11, 387, 302);
-		contentPane.add(EntradasCorrenteFrame);
-		EntradasCorrenteFrame.getContentPane().setLayout(new GridLayout(2, 1, 0, 0));
+		btnVoltar.setBounds(909, 696, 89, 23);
+		contentPane.add(btnVoltar);
 		
-		JPanel panelEntradas2 = new JPanel();
-		EntradasCorrenteFrame.getContentPane().add(panelEntradas2);
-		panelEntradas2.setLayout(new GridLayout(2, 0, 0, 0));
-		JTextField textAmplitudeCorrente = new JTextField();
-		JPanel panelAmplitudeCorrente = new JPanel();
-		panelEntradas2.add(panelAmplitudeCorrente);
-		JSlider sliderAmplitudeCorrente = new JSlider();
-		panelAmplitudeCorrente.setBorder(new TitledBorder(null, "Amplitude", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		JInternalFrame FrameResultado = new JInternalFrame("Resultado");
+		FrameResultado.setBounds(10, 359, 988, 323);
+		contentPane.add(FrameResultado);
+		FrameResultado.getContentPane().setLayout(new GridLayout(0, 2, 0, 0));
 		
-		sliderAmplitudeCorrente.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent arg0) {
-				textAmplitudeCorrente.setText(Integer.toString(sliderAmplitudeCorrente.getValue()));
-						FOCorrente.setVrms(sliderAmplitudeCorrente.getValue());
-						VPCalculos.setIrms(sliderAmplitudeCorrente.getValue());
-						textPotAtiva.setText(String.format("%.2f", VPCalculos.calculaA()));
-						textPotReativa.setText(String.format("%.2f", VPCalculos.calculaR()));
-						textPotAparente.setText(String.format("%.2f", VPCalculos.calculaPotAp()));
-						textFatorDePotencia.setText(String.format("%.2f", VPCalculos.calculaFatPot()));
-						valoresFOTensao = FOTensao.calculaL();
-						valoresFOCorrente = FOCorrente.calculaL();
-						valoresFOPotenciaInst = FOTensao.calculaFOPI(valoresFOCorrente, valoresFOTensao);
-						if (panelGraficoResultado.getComponentCount() > 0) {
-							Component c1 = panelGraficoResultado.getComponent(0);
-							if (c1 instanceof GraphPanel)
-								((GraphPanel) c1).setScores(valoresFOPotenciaInst);
-						}
-						if(panelGraficoTensao.getComponentCount() > 0) {
-							Component c2 = panelGraficoTensao.getComponent(0);
-							if (c2 instanceof GraphPanel)
-								((GraphPanel) c2).setScores(valoresFOTensao);
-						}
-						if(panelGraficoCorrente.getComponentCount() > 0) {
-							Component c3 = panelGraficoCorrente.getComponent(0);
-							if (c3 instanceof GraphPanel)
-								((GraphPanel) c3).setScores(valoresFOCorrente);
-						}
-						//atualizar as variaveis da classe de calculos
-			}
-		});
-		panelAmplitudeCorrente.setLayout(new GridLayout(0, 2, 0, 0));
-		sliderAmplitudeCorrente.setValue(0);
-		panelAmplitudeCorrente.add(sliderAmplitudeCorrente);
+		JPanel panelResultadosETriangulo = new JPanel();
+		FrameResultado.getContentPane().add(panelResultadosETriangulo);
+		panelResultadosETriangulo.setLayout(new GridLayout(0, 2, 0, 0));
 		
-		textAmplitudeCorrente.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int value = 0;
-				try {
-					value = Integer.parseInt(textAmplitudeCorrente.getText());
-				}catch(NumberFormatException e) {
-					JOptionPane.showMessageDialog(null, "O valor deve ser um número!", "Entrada inválida!", JOptionPane.ERROR_MESSAGE);
-					textAmplitudeCorrente.setText(Integer.toString(sliderAmplitudeCorrente.getValue()));
-					value = sliderAmplitudeCorrente.getValue();
-				}
-				if(value < 0 || value > 100) {
-					JOptionPane.showMessageDialog(null, "O valor deve estar entre 0 e 100!", "Entrada inválida!", JOptionPane.ERROR_MESSAGE);
-					textAmplitudeCorrente.setText(Integer.toString(sliderAmplitudeCorrente.getValue()));
-				}
-				else {
-					sliderAmplitudeCorrente.setValue(value);
-					FOCorrente.setVrms(value);
-					VPCalculos.setIrms(value);
-					textPotAtiva.setText(String.format("%.2f", VPCalculos.calculaA()));
-					textPotReativa.setText(String.format("%.2f", VPCalculos.calculaR()));
-					textPotAparente.setText(String.format("%.2f", VPCalculos.calculaPotAp()));
-					textFatorDePotencia.setText(String.format("%.2f", VPCalculos.calculaFatPot()));
-					valoresFOTensao = FOTensao.calculaL();
-					valoresFOCorrente = FOCorrente.calculaL();
-					valoresFOPotenciaInst = FOTensao.calculaFOPI(valoresFOCorrente, valoresFOTensao);
-					if (panelGraficoResultado.getComponentCount() > 0) {
-						Component c1 = panelGraficoResultado.getComponent(0);
-						if (c1 instanceof GraphPanel)
-							((GraphPanel) c1).setScores(valoresFOPotenciaInst);
-					}
-					if(panelGraficoTensao.getComponentCount() > 0) {
-						Component c2 = panelGraficoTensao.getComponent(0);
-						if (c2 instanceof GraphPanel)
-							((GraphPanel) c2).setScores(valoresFOTensao);
-					}
-					if(panelGraficoCorrente.getComponentCount() > 0) {
-						Component c3 = panelGraficoCorrente.getComponent(0);
-						if (c3 instanceof GraphPanel)
-							((GraphPanel) c3).setScores(valoresFOCorrente);
-					}
-					
-					//atualizar as variaveis da classe de calculos
-				}
-			}
-		});
-		panelAmplitudeCorrente.add(textAmplitudeCorrente);
-		textAmplitudeCorrente.setColumns(10);
-		JPanel panelAnguloCorrente = new JPanel();
-		panelEntradas2.add(panelAnguloCorrente);
-		JSpinner spinnerAnguloCorrente = new JSpinner();
-		spinnerAnguloCorrente.setModel(new SpinnerNumberModel(0, null, null, 1));
-		spinnerAnguloCorrente.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent arg0) {
-				int value= (Integer) spinnerAnguloCorrente.getValue();
-				if(value < -180 || value > 180) {
-					JOptionPane.showMessageDialog(null, "O valor deve estar entre -180º e 180º!", "Entrada inválida!", JOptionPane.ERROR_MESSAGE);
-					if(value < 0) spinnerAnguloCorrente.setValue(-180);
-					else spinnerAnguloCorrente.setValue(180);
-					
-				}
-				else {
-					FOCorrente.setAng(value);
-					VPCalculos.setAngI(value);
-					
-					textPotAtiva.setText(String.format("%.2f", VPCalculos.calculaA()));
-					textPotReativa.setText(String.format("%.2f", VPCalculos.calculaR()));
-					textPotAparente.setText(String.format("%.2f", VPCalculos.calculaPotAp()));
-					textFatorDePotencia.setText(String.format("%.2f", VPCalculos.calculaFatPot()));
-					valoresFOTensao = FOTensao.calculaL();
-					valoresFOCorrente = FOCorrente.calculaL();
-					valoresFOPotenciaInst = FOTensao.calculaFOPI(valoresFOCorrente, valoresFOTensao);
-					if (panelGraficoResultado.getComponentCount() > 0) {
-						Component c1 = panelGraficoResultado.getComponent(0);
-						if (c1 instanceof GraphPanel)
-							((GraphPanel) c1).setScores(valoresFOPotenciaInst);
-					}
-					if(panelGraficoTensao.getComponentCount() > 0) {
-						Component c2 = panelGraficoTensao.getComponent(0);
-						if (c2 instanceof GraphPanel)
-							((GraphPanel) c2).setScores(valoresFOTensao);
-					}
-					if(panelGraficoCorrente.getComponentCount() > 0) {
-						Component c3 = panelGraficoCorrente.getComponent(0);
-						if (c3 instanceof GraphPanel)
-							((GraphPanel) c3).setScores(valoresFOCorrente);
-					}
-				}
-			}
-		});
-		panelAnguloCorrente.setBorder(new TitledBorder(null, "Ângulo", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelAnguloCorrente.setLayout(new GridLayout(0, 2, 0, 0));
-		panelAnguloCorrente.add(spinnerAnguloCorrente);
+		JPanel panelResultados = new JPanel();
+		panelResultadosETriangulo.add(panelResultados);
+		panelResultados.setLayout(null);
 		
-		JButton btnResetCorrente = new JButton("reset");
-		btnResetCorrente.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				EntradasCorrenteFrame.setBounds(397, 11, 387, 302);
-				sliderAmplitudeCorrente.setValue(0);
-				textAmplitudeCorrente.setText("0");
-				spinnerAnguloCorrente.setValue(0);
-				FOCorrente.setAng(0);
-				VPCalculos.setAngI(0);
-				FOCorrente.setVrms(0);
-				VPCalculos.setIrms(0);
-				textPotAtiva.setText(String.format("%.2f", VPCalculos.calculaA()));
-				textPotReativa.setText(String.format("%.2f", VPCalculos.calculaR()));
-				textPotAparente.setText(String.format("%.2f", VPCalculos.calculaPotAp()));
-				textFatorDePotencia.setText(String.format("%.2f", VPCalculos.calculaFatPot()));
-				valoresFOTensao = FOTensao.calculaL();
-				valoresFOCorrente = FOCorrente.calculaL();
-				valoresFOPotenciaInst = FOTensao.calculaFOPI(valoresFOCorrente, valoresFOTensao);
-				if (panelGraficoResultado.getComponentCount() > 0) {
-					Component c1 = panelGraficoResultado.getComponent(0);
-					if (c1 instanceof GraphPanel)
-						((GraphPanel) c1).setScores(valoresFOPotenciaInst);
-				}
-				if(panelGraficoTensao.getComponentCount() > 0) {
-					Component c2 = panelGraficoTensao.getComponent(0);
-					if (c2 instanceof GraphPanel)
-						((GraphPanel) c2).setScores(valoresFOTensao);
-				}
-				if(panelGraficoCorrente.getComponentCount() > 0) {
-					Component c3 = panelGraficoCorrente.getComponent(0);
-					if (c3 instanceof GraphPanel)
-						((GraphPanel) c3).setScores(valoresFOCorrente);
-				}
-			}
-		});
-		panelAnguloCorrente.add(btnResetCorrente);
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new TitledBorder(null, "Potência Ativa", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setBounds(14, 25, 212, 42);
+		panelResultados.add(panel_1);
+		panel_1.setLayout(null);
 		
-		panelGraficoCorrente.add(graphPanelCorrente);
-		EntradasCorrenteFrame.getContentPane().add(panelGraficoCorrente);
-		
-		JInternalFrame resultsFrame = new JInternalFrame("Resultados");
-		resultsFrame.setResizable(true);
-		resultsFrame.setBounds(0, 335, 784, 216);
-		contentPane.add(resultsFrame);
-		resultsFrame.getContentPane().setLayout(new GridLayout(0, 2, 0, 0));
-
-		panelGraficoResultado.add(graphPanelPotenciaInst);
-		resultsFrame.getContentPane().add(panelGraficoResultado);
-		
-		JPanel panelValoresResultado = new JPanel();
-		resultsFrame.getContentPane().add(panelValoresResultado);
-		panelValoresResultado.setLayout(new GridLayout(0, 2, 0, 0));
-		
-		JPanel panelTriangPot = new JPanel();
-		panelValoresResultado.add(panelTriangPot);
-		
-		JPanel panelCalculos = new JPanel();
-		panelValoresResultado.add(panelCalculos);
-		panelCalculos.setLayout(new GridLayout(4, 2, 0, 0));
-		
-		JLabel lblPotAtiva = new JLabel("Pot\u00EAncia Ativa:");
-		panelCalculos.add(lblPotAtiva);
-		
-		
+		textPotAtiva = new JTextField();
 		textPotAtiva.setEditable(false);
-		panelCalculos.add(textPotAtiva);
+		textPotAtiva.setBounds(6, 16, 200, 20);
+		panel_1.add(textPotAtiva);
 		textPotAtiva.setColumns(10);
 		
-		JLabel lblPotReativa = new JLabel("Pot\u00EAncia Reativa:");
-		panelCalculos.add(lblPotReativa);
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new TitledBorder(null, "Potência Reativa", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_2.setBounds(14, 87, 212, 42);
+		panelResultados.add(panel_2);
+		panel_2.setLayout(null);
 		
+		textPotReativa = new JTextField();
 		textPotReativa.setEditable(false);
-		panelCalculos.add(textPotReativa);
+		textPotReativa.setBounds(6, 16, 200, 20);
+		panel_2.add(textPotReativa);
 		textPotReativa.setColumns(10);
 		
-		JLabel lblPotAparente = new JLabel("Pot\u00EAncia Aparente:");
-		panelCalculos.add(lblPotAparente);
+		JPanel panel_3 = new JPanel();
+		panel_3.setBorder(new TitledBorder(null, "Potência Aparente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_3.setBounds(14, 151, 212, 42);
+		panelResultados.add(panel_3);
+		panel_3.setLayout(null);
 		
-		textPotAparente.setEnabled(true);
+		textPotAparente = new JTextField();
 		textPotAparente.setEditable(false);
-		textPotAparente.setText("");
-		panelCalculos.add(textPotAparente);
+		textPotAparente.setBounds(6, 16, 200, 20);
+		panel_3.add(textPotAparente);
 		textPotAparente.setColumns(10);
 		
-		JLabel lblFatorDePotencia = new JLabel("Fator De Pot\u00EAncia:");
-		panelCalculos.add(lblFatorDePotencia);
+		JPanel panel_4 = new JPanel();
+		panel_4.setBorder(new TitledBorder(null, "Fator de Potência", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_4.setBounds(14, 216, 212, 42);
+		panelResultados.add(panel_4);
+		panel_4.setLayout(null);
 		
-		textFatorDePotencia.setEditable(false);
-		panelCalculos.add(textFatorDePotencia);
-		textFatorDePotencia.setColumns(10);
-		resultsFrame.setVisible(true);
+		textFatPot = new JTextField();
+		textFatPot.setEditable(false);
+		textFatPot.setBounds(6, 16, 200, 20);
+		panel_4.add(textFatPot);
+		textFatPot.setColumns(10);
 		
-		EntradasCorrenteFrame.setVisible(true);
-		EntradasTensaoFrame.setVisible(true);
+		JPanel panelTrianguloPot = new JPanel();
+		panelResultadosETriangulo.add(panelTrianguloPot);
+		panelTrianguloPot.setLayout(null);
+		
+		JPanel panel_6 = new JPanel();
+		panel_6.setBorder(new TitledBorder(null, "Triangulo de Potências", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_6.setBounds(0, 11, 235, 194);
+		panelTrianguloPot.add(panel_6);
+		panel_6.setLayout(null);
+		
+		JPanel panelDesenhoTriangulo = new JPanel();
+		panelDesenhoTriangulo.setBounds(6, 16, 223, 172);
+		panelDesenhoTriangulo.setLayout(new GridLayout(1, 1));
+		panelDesenhoTriangulo.add(triangDraw);
+		panel_6.add(panelDesenhoTriangulo);
+		
+		JLabel lblVermelhoPotnciaAtiva = new JLabel("Vermelho: Pot\u00EAncia ativa");
+		lblVermelhoPotnciaAtiva.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblVermelhoPotnciaAtiva.setForeground(Color.RED);
+		lblVermelhoPotnciaAtiva.setBounds(10, 216, 223, 14);
+		panelTrianguloPot.add(lblVermelhoPotnciaAtiva);
+		
+		JLabel lblVerdePotnciaReativa = new JLabel("Verde: Pot\u00EAncia reativa");
+		lblVerdePotnciaReativa.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblVerdePotnciaReativa.setForeground(Color.GREEN);
+		lblVerdePotnciaReativa.setBounds(10, 241, 159, 14);
+		panelTrianguloPot.add(lblVerdePotnciaReativa);
+		
+		JLabel lblAzulPotnciaAparente = new JLabel("Azul: Pot\u00EAncia aparente");
+		lblAzulPotnciaAparente.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblAzulPotnciaAparente.setForeground(Color.BLUE);
+		lblAzulPotnciaAparente.setBounds(10, 266, 159, 14);
+		panelTrianguloPot.add(lblAzulPotnciaAparente);
+		
+		JPanel panelGraficoPotenciaInstPrincipal = new JPanel();
+		FrameResultado.getContentPane().add(panelGraficoPotenciaInstPrincipal);
+		panelGraficoPotenciaInstPrincipal.setLayout(null);
+		
+		JPanel bordaGraficoPotInst = new JPanel();
+		bordaGraficoPotInst.setBorder(new TitledBorder(null, "Forma de onda da potência instantânea:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		bordaGraficoPotInst.setBounds(25, 29, 438, 239);
+		panelGraficoPotenciaInstPrincipal.add(bordaGraficoPotInst);
+		bordaGraficoPotInst.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(6, 16, 426, 217);
+		panel.setLayout(new GridLayout(1, 1));
+		graphPanelPotInst = new GraphPanel(calcUC2.getFormaDeOndaPotenciaInstantanea());
+		panel.add(graphPanelPotInst);
+		bordaGraficoPotInst.add(panel);
+		FrameResultado.setVisible(true);
+		
+		JInternalFrame FrameEntrada = new JInternalFrame("Entradas");
+		FrameEntrada.setBounds(10, 11, 988, 337);
+		contentPane.add(FrameEntrada);
+		FrameEntrada.getContentPane().setLayout(null);
+		
+		JPanel PanelTensao = new JPanel();
+		PanelTensao.setBorder(new TitledBorder(null, "Tensão", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		PanelTensao.setBounds(4, 12, 165, 109);
+		FrameEntrada.getContentPane().add(PanelTensao);
+		PanelTensao.setLayout(null);
+		
+		JLabel lblAmplitudeT = new JLabel("Amplitude:");
+		lblAmplitudeT.setBounds(6, 19, 65, 14);
+		PanelTensao.add(lblAmplitudeT);
+		
+		JLabel lbAnguloT = new JLabel("\u00C2ngulo:");
+		lbAnguloT.setBounds(6, 44, 46, 14);
+		PanelTensao.add(lbAnguloT);
+		
+		textAngTensao = new JTextField();
+		textAngTensao.setBounds(70, 40, 86, 20);
+		PanelTensao.add(textAngTensao);
+		textAngTensao.setColumns(10);
+		
+		textAmpTensao = new JTextField();
+		textAmpTensao.setBounds(70, 16, 86, 20);
+		PanelTensao.add(textAmpTensao);
+		textAmpTensao.setColumns(10);
+		
+		JButton btnAplicarTensao = new JButton("Aplicar");
+		btnAplicarTensao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					calcUC2.setAngV(Integer.parseInt(textAngTensao.getText()));
+					calcUC2.setVrms(Integer.parseInt(textAmpTensao.getText()));
+					calcUC2.calcular();
+					if(graphPanelTensao != null)
+						graphPanelTensao.setScores(calcUC2.getFormaDeOndaTensao());
+					else {
+						graphPanelTensao = new GraphPanel(calcUC2.getFormaDeOndaTensao());	
+					}
+				}
+				catch(InvalidParameterException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				catch(NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "O valor inserido não é um número!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btnAplicarTensao.setBounds(66, 75, 89, 23);
+		PanelTensao.add(btnAplicarTensao);
+		
+		JPanel panelCorrente = new JPanel();
+		panelCorrente.setLayout(null);
+		panelCorrente.setBorder(new TitledBorder(null, "Corrente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelCorrente.setBounds(4, 161, 165, 109);
+		FrameEntrada.getContentPane().add(panelCorrente);
+		
+		JLabel label = new JLabel("Amplitude:");
+		label.setBounds(6, 19, 62, 14);
+		panelCorrente.add(label);
+		
+		JLabel label_1 = new JLabel("\u00C2ngulo:");
+		label_1.setBounds(6, 44, 46, 14);
+		panelCorrente.add(label_1);
+		
+		textAngCorrente = new JTextField();
+		textAngCorrente.setColumns(10);
+		textAngCorrente.setBounds(70, 40, 86, 20);
+		panelCorrente.add(textAngCorrente);
+		
+		textAmpCorrente = new JTextField();
+		textAmpCorrente.setColumns(10);
+		textAmpCorrente.setBounds(70, 16, 86, 20);
+		panelCorrente.add(textAmpCorrente);
+		
+		JButton btnAplicarCorrente = new JButton("Aplicar");
+		btnAplicarCorrente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					calcUC2.setAngI(Integer.parseInt(textAngCorrente.getText()));
+					calcUC2.setIrms(Integer.parseInt(textAmpCorrente.getText()));
+					calcUC2.calcular();
+					if(graphPanelCorrente != null)
+						graphPanelCorrente.setScores(calcUC2.getFormaDeOndaCorrente());
+					else {
+						graphPanelCorrente = new GraphPanel(calcUC2.getFormaDeOndaCorrente());	
+					}
+				}
+				catch(InvalidParameterException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				catch(NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "O valor inserido não é um número!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btnAplicarCorrente.setBounds(66, 75, 89, 23);
+		panelCorrente.add(btnAplicarCorrente);
+		
+		JPanel panelGraficos = new JPanel();
+		panelGraficos.setBounds(182, 11, 780, 259);
+		
+		panelGraficos.setLayout(null);
+		
+		JPanel panelPrincipalGraficoTensao = new JPanel();
+		panelPrincipalGraficoTensao.setBorder(new TitledBorder(null, "Forma de onda da tensão:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelPrincipalGraficoTensao.setBounds(10, 14, 377, 234);
+		panelGraficos.add(panelPrincipalGraficoTensao);
+		panelPrincipalGraficoTensao.setLayout(null);
+		
+		JPanel panelGraficoTensao = new JPanel();
+		panelGraficoTensao.setBounds(20, 16, 347, 209);
+		panelPrincipalGraficoTensao.add(panelGraficoTensao);
+		panelGraficoTensao.setLayout(new GridLayout(1, 1));
+		graphPanelTensao = new GraphPanel(calcUC2.getFormaDeOndaTensao());
+		panelGraficoTensao.add(graphPanelTensao);
+		
+		JPanel panelPrincipalGraficoCorrente = new JPanel();
+		panelPrincipalGraficoCorrente.setBorder(new TitledBorder(null, "Forma de onda da corrente:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelPrincipalGraficoCorrente.setBounds(393, 14, 362, 234);
+		panelGraficos.add(panelPrincipalGraficoCorrente);
+		panelPrincipalGraficoCorrente.setLayout(null);
+		
+		JPanel panelGraficoCorrente = new JPanel();
+		panelGraficoCorrente.setBounds(6, 16, 348, 208);
+		panelPrincipalGraficoCorrente.add(panelGraficoCorrente);
+		panelGraficoCorrente.setLayout(new GridLayout(1, 1));
+		graphPanelCorrente = new GraphPanel(calcUC2.getFormaDeOndaTensao());
+		panelGraficoCorrente.add(graphPanelCorrente);
+		
+		FrameEntrada.getContentPane().add(panelGraficos);
+		
+		JButton btnCalcular = new JButton("Calcular");
+		btnCalcular.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					calcUC2.setAngI(Integer.parseInt(textAngCorrente.getText()));
+					calcUC2.setIrms(Integer.parseInt(textAmpCorrente.getText()));
+					calcUC2.setAngV(Integer.parseInt(textAngTensao.getText()));
+					calcUC2.setVrms(Integer.parseInt(textAmpTensao.getText()));
+					calcUC2.calcular();
+					textPotAtiva.setText(String.format("%.2f",calcUC2.getValorPotenciaAtiva()));
+					textPotReativa.setText(String.format("%.2f",calcUC2.getValorPotenciaReativa()));
+					textPotAparente.setText(String.format("%.2f",calcUC2.getValorPotenciaAparente()));
+					textFatPot.setText(String.format("%.2f",calcUC2.getValorDoFatorDePotencia()));
+					if(graphPanelCorrente != null)
+						graphPanelCorrente.setScores(calcUC2.getFormaDeOndaCorrente());
+					else {
+						graphPanelCorrente = new GraphPanel(calcUC2.getFormaDeOndaCorrente());	
+					}
+					if(graphPanelTensao != null)
+						graphPanelTensao.setScores(calcUC2.getFormaDeOndaTensao());
+					else {
+						graphPanelTensao = new GraphPanel(calcUC2.getFormaDeOndaTensao());	
+					}
+					if(graphPanelPotInst != null)
+						graphPanelPotInst.setScores(calcUC2.getFormaDeOndaPotenciaInstantanea());
+					else {
+						graphPanelPotInst = new GraphPanel(calcUC2.getFormaDeOndaPotenciaInstantanea());	
+					}
+					if(triangDraw != null) {
+						triangDraw.refazTriangulo(calcUC2.getValorPotenciaAtiva(), calcUC2.getValorPotenciaReativa(), calcUC2.getValorPotenciaAparente(), calcUC2.getAngV()-calcUC2.getAngI());
+					}
+				}
+				catch(InvalidParameterException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				catch(NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "O valor inserido não é um número!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btnCalcular.setBounds(467, 274, 89, 23);
+		FrameEntrada.getContentPane().add(btnCalcular);
+
+		FrameEntrada.setVisible(true);
 	}
 }
