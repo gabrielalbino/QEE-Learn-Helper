@@ -1,6 +1,8 @@
-package ep2;
+package ep2.Model;
 
 import java.awt.EventQueue;
+
+import ep2.View.JanelaPrincipal;
 
 public class Main {	
 	public static void main(String[] args) {
