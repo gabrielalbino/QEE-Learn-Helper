@@ -143,7 +143,7 @@ public class JanelaUC2 extends JFrame {
 		panelDesenhoTriangulo.add(triangDraw);
 		panel_6.add(panelDesenhoTriangulo);
 		
-		JLabel lblVermelhoPotnciaAtiva = new JLabel("Vermelho: Pot\u00EAncia ativa");
+		JLabel lblVermelhoPotnciaAtiva = new JLabel("Vermelho: Pot\u00EAncia Aparente");
 		lblVermelhoPotnciaAtiva.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblVermelhoPotnciaAtiva.setForeground(Color.RED);
 		lblVermelhoPotnciaAtiva.setBounds(10, 216, 223, 14);
@@ -155,7 +155,7 @@ public class JanelaUC2 extends JFrame {
 		lblVerdePotnciaReativa.setBounds(10, 241, 159, 14);
 		panelTrianguloPot.add(lblVerdePotnciaReativa);
 		
-		JLabel lblAzulPotnciaAparente = new JLabel("Azul: Pot\u00EAncia aparente");
+		JLabel lblAzulPotnciaAparente = new JLabel("Azul: Pot\u00EAncia ativa");
 		lblAzulPotnciaAparente.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblAzulPotnciaAparente.setForeground(Color.BLUE);
 		lblAzulPotnciaAparente.setBounds(10, 266, 159, 14);
@@ -342,7 +342,7 @@ public class JanelaUC2 extends JFrame {
 						graphPanelPotInst = new GraphPanel(calcUC2.getFormaDeOndaPotenciaInstantanea());	
 					}
 					if(triangDraw != null) {
-						triangDraw.refazTriangulo(calcUC2.getValorPotenciaAtiva(), calcUC2.getValorPotenciaReativa(), calcUC2.getValorPotenciaAparente(), calcUC2.getAngV()-calcUC2.getAngI());
+						triangDraw.refazTriangulo(calcUC2.getAngV()-calcUC2.getAngI());
 					}
 				}
 				catch(InvalidParameterException e) {
