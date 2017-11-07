@@ -57,7 +57,7 @@ public class CalculosUC2 implements Calcular {
 		if(irms >= 0 && irms <= 100)
 			Irms = irms;
 		else
-			throw new InvalidParameterException("O valor da amplitude da tensão deve estar entre 0 e 220!");
+			throw new InvalidParameterException("O valor da amplitude da tensão deve estar entre 0 e 100!");
 	}
 	public double getAngV() {
 		return angV;
