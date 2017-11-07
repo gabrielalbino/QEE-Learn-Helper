@@ -35,7 +35,7 @@ public class JanelaPrincipal extends JFrame {
 		
 		setTitle("APRENDA QEE");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+		setBounds(0, 0, 800, 600);
 		
 		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(mainPane);

@@ -23,10 +23,8 @@ import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Component;
 import java.awt.EventQueue;
 
-import javax.swing.Box;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JTextArea;
@@ -74,6 +72,7 @@ public class JanelaUC3 extends JFrame {
 	 * Create the frame.
 	 */
 	public JanelaUC3() {
+		setResizable(false);
 		JRadioButton rdbtnPares = new JRadioButton("Pares");
 		JRadioButton rdbtImpares = new JRadioButton("\u00CDmpares");
 		
@@ -92,7 +91,7 @@ public class JanelaUC3 extends JFrame {
 		
 		calcUC3 = new CalculosUC3();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 1024, 768);
+		setBounds(0, 0, 1024, 768);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -108,7 +107,6 @@ public class JanelaUC3 extends JFrame {
 		contentPane.add(btnVoltar);
 		
 		JInternalFrame FrameEntradas = new JInternalFrame("Entradas Componente Fundamental");
-		FrameEntradas.setMaximizable(true);
 		FrameEntradas.setBounds(10, 45, 437, 161);
 		contentPane.add(FrameEntradas);
 		FrameEntradas.getContentPane().setLayout(new GridLayout(0, 2, 0, 0));
@@ -204,9 +202,6 @@ public class JanelaUC3 extends JFrame {
 		panelGraficoEntradas.setLayout(new GridLayout(1, 1));
 		graphPanelCompFundamental = new GraphPanel(calcUC3.getFormaDeOndaDaFundamental());
 		panelGraficoEntradas.add(graphPanelCompFundamental);
-		
-		
-		FrameHarmonicos.setMaximizable(true);
 		FrameHarmonicos.setBounds(460, 11, 538, 708);
 		contentPane.add(FrameHarmonicos);
 		FrameHarmonicos.getContentPane().setLayout(new GridLayout(8, 0, 0, 0));
