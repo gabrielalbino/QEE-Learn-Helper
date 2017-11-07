@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class TrianguloDraw extends JPanel {
 	private double ang;
-	public TrianguloDraw(double p, double q, double s, double ang) {
+	public TrianguloDraw(double ang) {
 		this.ang = ang;
 	}
     @Override

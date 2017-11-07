@@ -43,7 +43,7 @@ public class JanelaUC2 extends JFrame {
 	 * Create the frame.
 	 */
 	public JanelaUC2() {
-		triangDraw = new TrianguloDraw(0,0,0,0);
+		triangDraw = new TrianguloDraw(0);
 		graphPanelCorrente = null;
 		graphPanelTensao = null;
 		graphPanelPotInst = null;
