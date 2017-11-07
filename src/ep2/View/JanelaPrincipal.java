@@ -107,9 +107,18 @@ public class JanelaPrincipal extends JFrame {
 
 		btnSFPH.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				menuFrame.setVisible(false);
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							JanelaUC4 frame = new JanelaUC4();
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
 			}
 		});
-		JOptionPane.showMessageDialog(null, "Clique em um gráfico para expandi-lo!", "Dica", JOptionPane.INFORMATION_MESSAGE);
+
 	}
 }
