@@ -6,11 +6,8 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class TrianguloDraw extends JPanel {
-	private double p, q, s, ang;
+	private double ang;
 	public TrianguloDraw(double p, double q, double s, double ang) {
-		this.p = p;
-		this.q = q;
-		this.s = s;
 		this.ang = ang;
 	}
     @Override
@@ -27,7 +24,10 @@ public class TrianguloDraw extends JPanel {
     		g.drawLine(getWidth()/2+getWidth()/4, getHeight()/2, getWidth()/2,getHeight()/2);
     	}
     	else if(ang == 0){
-    		
+    		g.setColor(Color.BLUE);
+    		g.drawLine(getWidth()/2,getHeight()/2, getWidth()/2+getWidth()/3, getHeight()/2);
+    		g.setColor(Color.RED);
+    		g.drawLine(getWidth()/2,getHeight()/2, getWidth()/2+getWidth()/4, getHeight()/2);
     	}
     	else {
     		g.setColor(Color.RED);
@@ -40,10 +40,7 @@ public class TrianguloDraw extends JPanel {
     	}
     }
     
-    public void refazTriangulo(double p, double q, double s, double ang) {
-		this.p = p;
-		this.q = q;
-		this.s = s;
+    public void refazTriangulo(double ang) {
 		this.ang = ang;
         invalidate();
         this.repaint();
