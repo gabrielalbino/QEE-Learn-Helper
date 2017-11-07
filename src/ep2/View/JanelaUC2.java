@@ -177,7 +177,7 @@ public class JanelaUC2 extends JFrame {
 		graphPanelPotInst = new GraphPanel(calcUC2.getFormaDeOndaPotenciaInstantanea());
 		panel.add(graphPanelPotInst);
 		bordaGraficoPotInst.add(panel);
-		FrameResultado.setVisible(true);
+		FrameResultado.setVisible(false);
 		
 		JInternalFrame FrameEntrada = new JInternalFrame("Entradas");
 		FrameEntrada.setBounds(10, 11, 988, 337);
@@ -344,6 +344,7 @@ public class JanelaUC2 extends JFrame {
 					if(triangDraw != null) {
 						triangDraw.refazTriangulo(calcUC2.getAngV()-calcUC2.getAngI());
 					}
+					FrameResultado.setVisible(true);
 				}
 				catch(InvalidParameterException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
