@@ -87,7 +87,16 @@ public class JanelaPrincipal extends JFrame {
 		
 		btnSDH.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				menuFrame.setVisible(false);
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							JanelaUC3 frame = new JanelaUC3();
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
 			}
 		});
 		
