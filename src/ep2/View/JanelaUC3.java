@@ -541,7 +541,7 @@ public class JanelaUC3 extends JFrame {
 						ordemHarmonica[5] = Integer.parseInt(OrdemH6.getText());
 						vrmsh[5] = Double.parseDouble(AmplitudeH6.getText());
 						angVh[5] = Double.parseDouble(AnguloH6.getText());
-						if(!AnguloH6.getText().contains("-")){
+						if(!AnguloH6.getText().contains("-") && !AnguloH6.getText().contains("+")){
 							AnguloH6.setText(String.format("%c%s",'+', AnguloH6.getText()));
 						}
 						fourrier += String.format(" + %scos(%swt%s)",AmplitudeH6.getText(),OrdemH6.getText() ,AnguloH6.getText());
@@ -549,7 +549,7 @@ public class JanelaUC3 extends JFrame {
 						ordemHarmonica[4] = Integer.parseInt(OrdemH5.getText());
 						vrmsh[4] = Double.parseDouble(AmplitudeH5.getText());
 						angVh[4] = Double.parseDouble(AnguloH5.getText());
-						if(!AnguloH5.getText().contains("-")){
+						if(!AnguloH5.getText().contains("-") && !AnguloH5.getText().contains("+")){
 							AnguloH5.setText(String.format("%c%s",'+', AnguloH5.getText()));
 						}
 						
@@ -558,7 +558,7 @@ public class JanelaUC3 extends JFrame {
 						ordemHarmonica[3] = Integer.parseInt(OrdemH4.getText());
 						vrmsh[3] = Double.parseDouble(AmplitudeH4.getText());
 						angVh[3] = Double.parseDouble(AnguloH4.getText());
-						if(!AnguloH4.getText().contains("-")){
+						if(!AnguloH4.getText().contains("-") && !AnguloH4.getText().contains("+")){
 							AnguloH4.setText(String.format("%c%s",'+', AnguloH4.getText()));
 						}
 						fourrier += String.format(" + %scos(%swt%s)",AmplitudeH4.getText(),OrdemH4.getText() ,AnguloH4.getText());
@@ -566,7 +566,7 @@ public class JanelaUC3 extends JFrame {
 						ordemHarmonica[2] = Integer.parseInt(OrdemH3.getText());
 						vrmsh[2] = Double.parseDouble(AmplitudeH3.getText());
 						angVh[2] = Double.parseDouble(AnguloH3.getText());
-						if(!AnguloH3.getText().contains("-")){
+						if(!AnguloH3.getText().contains("-") && !AnguloH3.getText().contains("+")){
 							AnguloH3.setText(String.format("%c%s",'+', AnguloH3.getText()));
 						}
 						fourrier += String.format(" + %scos(%swt%s)",AmplitudeH3.getText(),OrdemH3.getText() ,AnguloH3.getText());
@@ -574,7 +574,7 @@ public class JanelaUC3 extends JFrame {
 						ordemHarmonica[1] = Integer.parseInt(OrdemH2.getText());
 						vrmsh[1] = Double.parseDouble(AmplitudeH2.getText());
 						angVh[1] = Double.parseDouble(AnguloH2.getText());
-						if(!AnguloH2.getText().contains("-")){
+						if(!AnguloH2.getText().contains("-") && !AnguloH2.getText().contains("+")){
 							AnguloH2.setText(String.format("%c%s",'+', AnguloH2.getText()));
 						}
 						fourrier += String.format(" + %scos(%swt%s)",AmplitudeH2.getText(),OrdemH2.getText() ,AnguloH2.getText());
@@ -582,7 +582,7 @@ public class JanelaUC3 extends JFrame {
 						ordemHarmonica[0] = Integer.parseInt(OrdemH1.getText());
 						vrmsh[0] = Double.parseDouble(AmplitudeH1.getText());
 						angVh[0] = Double.parseDouble(AnguloH1.getText());
-						if(!AnguloH1.getText().contains("-")){
+						if(!AnguloH1.getText().contains("-") && !AnguloH1.getText().contains("+")){
 							AnguloH1.setText(String.format("%c%s",'+', AnguloH1.getText()));
 						}
 						fourrier += String.format(" + %scos(%swt%s)",AmplitudeH1.getText(),OrdemH1.getText() ,AnguloH1.getText());
