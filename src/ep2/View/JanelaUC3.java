@@ -24,7 +24,11 @@ import javax.swing.ButtonGroup;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Component;
+import java.awt.EventQueue;
+
 import javax.swing.Box;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class JanelaUC3 extends JFrame {
@@ -174,6 +178,21 @@ public class JanelaUC3 extends JFrame {
 			}
 		});
 		JPanel panelGraficoEntradas = new JPanel();
+		panelGraficoEntradas.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							GraficoExpandido frame = new GraficoExpandido(calcUC3.getFormaDeOndaDaFundamental());
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		FrameEntradas.getContentPane().add(panelGraficoEntradas);
 		panelGraficoEntradas.setLayout(new GridLayout(1, 1));
 		graphPanelCompFundamental = new GraphPanel(calcUC3.getFormaDeOndaDaFundamental());
@@ -289,7 +308,23 @@ public class JanelaUC3 extends JFrame {
 		graphHarmonico1 = new GraphPanel(calcUC3.getFormaDeOndaDaOrdemHarmonicaH1());
 		panelGraficoHarmonico1.add(graphHarmonico1);
 		graphHarmonico1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-
+		panelGraficoHarmonico1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							GraficoExpandido frame = new GraficoExpandido(calcUC3.getFormaDeOndaDaOrdemHarmonicaH1());
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+			
+		});
+		
 		JPanel panelEntradaHarmonico1 = new JPanel();
 		panelEntradaHarmonico1.setBackground(Color.GRAY);
 		panelHarmonico1.add(panelEntradaHarmonico1);
@@ -322,6 +357,22 @@ public class JanelaUC3 extends JFrame {
 		contentPane.add(FrameGraficoResultado);
 		FrameGraficoResultado.getContentPane().setLayout(new GridLayout(1, 1, 0, 0));
 		graphFormaDeOndaDistorcida = new GraphPanel(calcUC3.getFormaDeOndaDistorcidaResultante());
+		graphFormaDeOndaDistorcida.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							GraficoExpandido frame = new GraficoExpandido(calcUC3.getFormaDeOndaDistorcidaResultante());
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+			
+		});
 		FrameGraficoResultado.getContentPane().add(graphFormaDeOndaDistorcida);
 		
 		JInternalFrame FrameFourrier = new JInternalFrame("série de Fourrier");
@@ -341,7 +392,21 @@ public class JanelaUC3 extends JFrame {
 		panelGraficoHarmonico2.setLayout(new GridLayout(1, 0, 0, 0));
 		graphHarmonico2 = new GraphPanel(calcUC3.getFormaDeOndaDaOrdemHarmonicaH2());
 		panelGraficoHarmonico2.add(graphHarmonico2);
-		
+		panelGraficoHarmonico2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							GraficoExpandido frame = new GraficoExpandido(calcUC3.getFormaDeOndaDaOrdemHarmonicaH2());
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		JPanel panelEntradaHarmonico2 = new JPanel();
 		panelEntradaHarmonico2.setBackground(Color.LIGHT_GRAY);
 		panelHarmonico2.add(panelEntradaHarmonico2);
@@ -375,6 +440,21 @@ public class JanelaUC3 extends JFrame {
 		panelGraficoHarmonico3.setLayout(new GridLayout(1, 0, 0, 0));
 		graphHarmonico3 = new GraphPanel(calcUC3.getFormaDeOndaDaOrdemHarmonicaH3());
 		panelGraficoHarmonico3.add(graphHarmonico3);
+		panelGraficoHarmonico3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							GraficoExpandido frame = new GraficoExpandido(calcUC3.getFormaDeOndaDaOrdemHarmonicaH3());
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		
 		JPanel panelEntradaHarmonico3 = new JPanel();
 		panelEntradaHarmonico3.setBackground(Color.GRAY);
@@ -409,6 +489,21 @@ public class JanelaUC3 extends JFrame {
 		panelGraficoHarmonico4.setLayout(new GridLayout(1, 0, 0, 0));
 		graphHarmonico4 = new GraphPanel(calcUC3.getFormaDeOndaDaOrdemHarmonicaH4());
 		panelGraficoHarmonico4.add(graphHarmonico4);
+		panelGraficoHarmonico4.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							GraficoExpandido frame = new GraficoExpandido(calcUC3.getFormaDeOndaDaOrdemHarmonicaH4());
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		
 		JPanel panelEntradaHarmonico4 = new JPanel();
 		panelEntradaHarmonico4.setBackground(Color.LIGHT_GRAY);
@@ -443,6 +538,21 @@ public class JanelaUC3 extends JFrame {
 		panelGraficoHarmonico5.setLayout(new GridLayout(1, 0, 0, 0));
 		graphHarmonico5 = new GraphPanel(calcUC3.getFormaDeOndaDaOrdemHarmonicaH5());
 		panelGraficoHarmonico5.add(graphHarmonico5);
+		panelGraficoHarmonico5.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							GraficoExpandido frame = new GraficoExpandido(calcUC3.getFormaDeOndaDaOrdemHarmonicaH5());
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		
 		JPanel panelEntradaHarmonico5 = new JPanel();
 		panelEntradaHarmonico5.setBackground(Color.GRAY);
@@ -480,6 +590,21 @@ public class JanelaUC3 extends JFrame {
 		FlowLayout flowLayout = (FlowLayout) graphHarmonico6.getLayout();
 		flowLayout.setAlignOnBaseline(true);
 		panelGraficoHarmonico6.add(graphHarmonico6);
+		panelGraficoHarmonico6.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							GraficoExpandido frame = new GraficoExpandido(calcUC3.getFormaDeOndaDaOrdemHarmonicaH6());
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		
 		JPanel panelEntradaHarmonico6 = new JPanel();
 		panelEntradaHarmonico6.setBackground(Color.LIGHT_GRAY);

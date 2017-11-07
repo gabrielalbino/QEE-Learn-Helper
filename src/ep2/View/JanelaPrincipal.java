@@ -6,6 +6,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.SystemColor;
 import javax.swing.JSeparator;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.EventQueue;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -70,6 +72,8 @@ public class JanelaPrincipal extends JFrame {
 		menuFrame.getContentPane().add(btnSDH);
 		menuFrame.getContentPane().add(btnSFPH);
 		
+		
+		
 		btnSFPF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				EventQueue.invokeLater(new Runnable() {
@@ -106,5 +110,6 @@ public class JanelaPrincipal extends JFrame {
 				menuFrame.setVisible(false);
 			}
 		});
+		JOptionPane.showMessageDialog(null, "Clique em um gráfico para expandi-lo!", "Dica", JOptionPane.INFORMATION_MESSAGE);
 	}
 }

@@ -19,7 +19,10 @@ import ep2.Controller.TrianguloDraw;
 
 import java.awt.GridLayout;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class JanelaUC2 extends JFrame {
@@ -172,6 +175,21 @@ public class JanelaUC2 extends JFrame {
 		bordaGraficoPotInst.setLayout(null);
 		
 		JPanel panel = new JPanel();
+		panel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							GraficoExpandido frame = new GraficoExpandido(calcUC2.getFormaDeOndaPotenciaInstantanea());
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		panel.setBounds(6, 16, 426, 217);
 		panel.setLayout(new GridLayout(1, 1));
 		graphPanelPotInst = new GraphPanel(calcUC2.getFormaDeOndaPotenciaInstantanea());
@@ -286,6 +304,21 @@ public class JanelaUC2 extends JFrame {
 		panelGraficos.setLayout(null);
 		
 		JPanel panelPrincipalGraficoTensao = new JPanel();
+		panelPrincipalGraficoTensao.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							GraficoExpandido frame = new GraficoExpandido(calcUC2.getFormaDeOndaTensao());
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		panelPrincipalGraficoTensao.setBorder(new TitledBorder(null, "Forma de onda da tensão:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelPrincipalGraficoTensao.setBounds(10, 14, 377, 234);
 		panelGraficos.add(panelPrincipalGraficoTensao);
@@ -299,6 +332,21 @@ public class JanelaUC2 extends JFrame {
 		panelGraficoTensao.add(graphPanelTensao);
 		
 		JPanel panelPrincipalGraficoCorrente = new JPanel();
+		panelPrincipalGraficoCorrente.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							GraficoExpandido frame = new GraficoExpandido(calcUC2.getFormaDeOndaCorrente());
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
 		panelPrincipalGraficoCorrente.setBorder(new TitledBorder(null, "Forma de onda da corrente:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelPrincipalGraficoCorrente.setBounds(393, 14, 362, 234);
 		panelGraficos.add(panelPrincipalGraficoCorrente);
