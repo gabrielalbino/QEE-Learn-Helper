@@ -10,7 +10,7 @@
 > Para compilar e executar:
 
 > Requisitos:
-> + Eclipse Oxigen
+> + Eclipse Oxygen
 
 >Como Rodar:
 > + Importe o projeto
