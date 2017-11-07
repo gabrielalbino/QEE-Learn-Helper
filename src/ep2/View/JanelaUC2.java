@@ -42,6 +42,7 @@ public class JanelaUC2 extends JFrame {
 	private JTextField textPotReativa;
 	private JTextField textPotAparente;
 	private JTextField textFatPot;
+	private JTextField txtDicaClicarEm;
 	/**
 	 * Create the frame.
 	 */
@@ -54,7 +55,7 @@ public class JanelaUC2 extends JFrame {
 		CalculosUC2 calcUC2 = new CalculosUC2();
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 1024, 768);
+		setBounds(0, 0, 1024, 768);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -195,7 +196,7 @@ public class JanelaUC2 extends JFrame {
 		graphPanelPotInst = new GraphPanel(calcUC2.getFormaDeOndaPotenciaInstantanea());
 		panel.add(graphPanelPotInst);
 		bordaGraficoPotInst.add(panel);
-		FrameResultado.setVisible(false);
+		FrameResultado.setVisible(true);
 		
 		JInternalFrame FrameEntrada = new JInternalFrame("Entradas");
 		FrameEntrada.setBounds(10, 11, 988, 337);
@@ -404,6 +405,12 @@ public class JanelaUC2 extends JFrame {
 		});
 		btnCalcular.setBounds(467, 274, 89, 23);
 		FrameEntrada.getContentPane().add(btnCalcular);
+		
+		txtDicaClicarEm = new JTextField();
+		txtDicaClicarEm.setText("Dica: Clicar em um gr\u00E1fico ir\u00E1 expandi-lo!");
+		txtDicaClicarEm.setBounds(10, 697, 380, 20);
+		contentPane.add(txtDicaClicarEm);
+		txtDicaClicarEm.setColumns(10);
 
 		FrameEntrada.setVisible(true);
 	}
