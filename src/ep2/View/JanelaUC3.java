@@ -29,6 +29,7 @@ import java.awt.EventQueue;
 import javax.swing.Box;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JTextArea;
 
 @SuppressWarnings("serial")
 public class JanelaUC3 extends JFrame {
@@ -73,6 +74,9 @@ public class JanelaUC3 extends JFrame {
 	 * Create the frame.
 	 */
 	public JanelaUC3() {
+		JRadioButton rdbtnPares = new JRadioButton("Pares");
+		JRadioButton rdbtImpares = new JRadioButton("\u00CDmpares");
+		
 		JButton btnAplicar_1 = new JButton("Aplicar");
 		JPanel panelAplicar2 = new JPanel();
 		JPanel panelHarmonico1 = new JPanel();
@@ -105,8 +109,7 @@ public class JanelaUC3 extends JFrame {
 		
 		JInternalFrame FrameEntradas = new JInternalFrame("Entradas Componente Fundamental");
 		FrameEntradas.setMaximizable(true);
-		FrameEntradas.setResizable(true);
-		FrameEntradas.setBounds(20, 45, 538, 136);
+		FrameEntradas.setBounds(10, 45, 437, 161);
 		contentPane.add(FrameEntradas);
 		FrameEntradas.getContentPane().setLayout(new GridLayout(0, 2, 0, 0));
 		
@@ -168,6 +171,10 @@ public class JanelaUC3 extends JFrame {
 					}
 					btnOk.setEnabled(true);
 					FrameHarmonicos.setVisible(true);
+					textNroHarmonicos.setEnabled(true);
+					rdbtnPares.setEnabled(true);
+					rdbtImpares.setEnabled(true);
+					rdbtImpares.setSelected(true);
 				}
 				catch(InvalidParameterException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -200,8 +207,7 @@ public class JanelaUC3 extends JFrame {
 		
 		
 		FrameHarmonicos.setMaximizable(true);
-		FrameHarmonicos.setResizable(true);
-		FrameHarmonicos.setBounds(20, 183, 538, 536);
+		FrameHarmonicos.setBounds(460, 11, 538, 708);
 		contentPane.add(FrameHarmonicos);
 		FrameHarmonicos.getContentPane().setLayout(new GridLayout(8, 0, 0, 0));
 		
@@ -218,6 +224,7 @@ public class JanelaUC3 extends JFrame {
 		panelNroHarmonicos.add(lblNumeroDeHarmonicos);
 		
 		textNroHarmonicos = new JTextField();
+		textNroHarmonicos.setEnabled(false);
 		panelNroHarmonicos.add(textNroHarmonicos);
 		textNroHarmonicos.setColumns(10);
 		
@@ -231,13 +238,14 @@ public class JanelaUC3 extends JFrame {
 		JLabel lblHarmnicos = new JLabel("Harm\u00F4nicos");
 		lblHarmnicos.setHorizontalAlignment(SwingConstants.CENTER);
 		panelTipoHarmonicos.add(lblHarmnicos);
-		
-		JRadioButton rdbtImpares = new JRadioButton("\u00CDmpares");
-		rdbtImpares.setSelected(true);
+
+		rdbtImpares.setEnabled(false);
 		buttonGroup.add(rdbtImpares);
 		panelTipoHarmonicos.add(rdbtImpares);
 		
-		JRadioButton rdbtnPares = new JRadioButton("Pares");
+		
+		rdbtnPares.setEnabled(false);
+		
 		buttonGroup.add(rdbtnPares);
 		panelTipoHarmonicos.add(rdbtnPares);
 		
@@ -353,9 +361,9 @@ public class JanelaUC3 extends JFrame {
 		FrameHarmonicos.getContentPane().add(panelEntradasHarmonicos);
 		
 		JInternalFrame FrameGraficoResultado = new JInternalFrame("Forma de onda distorcida resultante ");
-		FrameGraficoResultado.setBounds(568, 45, 430, 195);
+		FrameGraficoResultado.setBounds(10, 217, 430, 502);
 		contentPane.add(FrameGraficoResultado);
-		FrameGraficoResultado.getContentPane().setLayout(new GridLayout(1, 1, 0, 0));
+		FrameGraficoResultado.getContentPane().setLayout(new GridLayout(2, 1, 0, 0));
 		graphFormaDeOndaDistorcida = new GraphPanel(calcUC3.getFormaDeOndaDistorcidaResultante());
 		graphFormaDeOndaDistorcida.addMouseListener(new MouseAdapter() {
 			@Override
@@ -375,15 +383,10 @@ public class JanelaUC3 extends JFrame {
 		});
 		FrameGraficoResultado.getContentPane().add(graphFormaDeOndaDistorcida);
 		
-		JInternalFrame FrameFourrier = new JInternalFrame("série de Fourrier");
-		FrameFourrier.setBounds(568, 251, 430, 171);
-		contentPane.add(FrameFourrier);
-		FrameFourrier.getContentPane().setLayout(new GridLayout(1, 1, 0, 0));
-		
-		JLabel lblSerieFourrier = new JLabel("");
-		FrameFourrier.getContentPane().add(lblSerieFourrier);
-		FrameFourrier.setVisible(false);
-		FrameGraficoResultado.setVisible(false);
+		JTextArea lblSerieFourrier = new JTextArea();
+		FrameGraficoResultado.getContentPane().add(lblSerieFourrier);
+		lblSerieFourrier.setLineWrap(true);
+		FrameGraficoResultado.setVisible(true);
 
 		panelHarmonico2.setLayout(new GridLayout(0, 2, 0, 0));
 		
@@ -633,23 +636,12 @@ public class JanelaUC3 extends JFrame {
 		panelEntradaHarmonico6.add(OrdemH6);
 		
 		
-
-		panelAplicar2.setLayout(new GridLayout(0, 6, 0, 0));
+		panelAplicar2.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		JPanel panel = new JPanel();
+		JTextArea dica = new JTextArea("Dica: Clicar em um grafico irá expandi-lo");
+		panel.add(dica);
 		panelAplicar2.add(panel);
-		
-		JPanel panel_1 = new JPanel();
-		panelAplicar2.add(panel_1);
-		
-		JPanel panel_2 = new JPanel();
-		panelAplicar2.add(panel_2);
-		
-		JPanel panel_3 = new JPanel();
-		panelAplicar2.add(panel_3);
-		
-		JPanel panel_4 = new JPanel();
-		panelAplicar2.add(panel_4);
 		
 		
 		btnAplicar_1.addActionListener(new ActionListener() {
@@ -749,7 +741,6 @@ public class JanelaUC3 extends JFrame {
 					graphFormaDeOndaDistorcida.setScores(calcUC3.getFormaDeOndaDistorcidaResultante());
 					FrameGraficoResultado.setVisible(true);
 					lblSerieFourrier.setText(fourrier);
-					FrameFourrier.setVisible(true);
 				}
 				catch(InvalidParameterException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -770,7 +761,7 @@ public class JanelaUC3 extends JFrame {
 		panelHarmonico5.setVisible(false);
 		panelHarmonico6.setVisible(false);
 		
-		FrameHarmonicos.setVisible(false);
+		FrameHarmonicos.setVisible(true);
 		FrameEntradas.setVisible(true);
 	}
 }
