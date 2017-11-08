@@ -6,8 +6,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.SystemColor;
 import javax.swing.JSeparator;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.EventQueue;
 import java.awt.Font;
 import javax.swing.SwingConstants;
