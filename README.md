@@ -33,7 +33,7 @@
 
 > + Tratamento de exceções: Todas as excessões lançadas tanto pelos metodos set quanto pelos métodos padrões do Swing/JavaJDK foram tratadas e, quando necessário, informado ao usuário a causa do problema e uma possível solução.
 
-> + Boas práticas de desenvolvimento: Não implementado ainda.
+> + Boas práticas de desenvolvimento: Foi utilizado modularização e nomes de variaveis/métodos significativos.
 
 > + Uso do repositório e Versionamento: Todas as mudanças foram commitadas com comentários precisos e coerentes.
 
