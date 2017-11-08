@@ -48,7 +48,7 @@ public class CalculosUC2 implements Calcular {
 		if(vrms >= 0 && vrms <= 220)
 			Vrms = vrms;
 		else
-			throw new InvalidParameterException("O valor da amplitude da corrente deve estar entre 0 e 220!");
+			throw new InvalidParameterException("O valor da amplitude da TensÃ£o deve estar entre 0 e 220!");
 	}
 	public double getIrms() {
 		return Irms;
@@ -57,7 +57,7 @@ public class CalculosUC2 implements Calcular {
 		if(irms >= 0 && irms <= 100)
 			Irms = irms;
 		else
-			throw new InvalidParameterException("O valor da amplitude da tensão deve estar entre 0 e 100!");
+			throw new InvalidParameterException("O valor da amplitude da corrente deve estar entre 0 e 100!");
 	}
 	public double getAngV() {
 		return angV;
@@ -66,7 +66,7 @@ public class CalculosUC2 implements Calcular {
 		if(angV >= -180 && angV <= 180)
 			this.angV = angV;
 		else
-			throw new InvalidParameterException("O valor do angulo da corrente deve estar entre -180º e 180º!");
+			throw new InvalidParameterException("O valor do angulo da corrente deve estar entre -180ï¿½ e 180ï¿½!");
 	}
 	public double getAngI() {
 		return angI;
@@ -75,7 +75,7 @@ public class CalculosUC2 implements Calcular {
 		if(angI >= -180 && angI <= 180)
 			this.angI = angI;
 		else
-			throw new InvalidParameterException("O valor do angulo da tensão deve estar entre -180º e 180º!");
+			throw new InvalidParameterException("O valor do angulo da tensï¿½o deve estar entre -180ï¿½ e 180ï¿½!");
 	}
 	
 	public double getValorPotenciaAtiva() {
