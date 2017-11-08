@@ -33,6 +33,8 @@ public class JanelaUC2 extends JFrame {
 	
 	TrianguloDraw triangDraw;
 	
+	CalculosUC2 calcUC2;
+	
 	private JPanel contentPane;
 	private JTextField textAngTensao;
 	private JTextField textAmpTensao;
@@ -52,7 +54,7 @@ public class JanelaUC2 extends JFrame {
 		graphPanelTensao = null;
 		graphPanelPotInst = null;
 		
-		CalculosUC2 calcUC2 = new CalculosUC2();
+		calcUC2 = new CalculosUC2();
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(0, 0, 1024, 768);
