@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.IllegalFormatException;
 import java.awt.event.ActionEvent;
 import javax.swing.JInternalFrame;
 
@@ -45,6 +46,10 @@ public class JanelaUC4 extends JFrame {
 	private JTextField textTPF;
 
 	public JanelaUC4() {
+		textPotLiq = new JTextField();
+		textPotDis = new JTextField();
+		textTPF = new JTextField();
+		
 		calcUC4 = new CalculosUC4();
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -105,13 +110,13 @@ public class JanelaUC4 extends JFrame {
 		panelGraficoTensao.setLayout(new GridLayout(1, 1));
 		panelGraficoTensao.add(graficoTensao);
 		
-		JPanel panel_4 = new JPanel();
-		panel_4.setBorder(new TitledBorder(null, "Tensão", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelTensao.add(panel_4);
-		panel_4.setLayout(new GridLayout(0, 1, 0, 0));
+		JPanel panelEntradaTensao = new JPanel();
+		panelEntradaTensao.setBorder(new TitledBorder(null, "Tensão", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelTensao.add(panelEntradaTensao);
+		panelEntradaTensao.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JPanel panelValoresTensao = new JPanel();
-		panel_4.add(panelValoresTensao);
+		panelEntradaTensao.add(panelValoresTensao);
 		panelValoresTensao.setLayout(new GridLayout(4, 2, 0, 0));
 		
 		JLabel label = new JLabel("Amplitude");
@@ -128,14 +133,14 @@ public class JanelaUC4 extends JFrame {
 		panelValoresTensao.add(textAnguloTensao);
 		textAnguloTensao.setColumns(10);
 		
-		JPanel panel_1 = new JPanel();
-		panelValoresTensao.add(panel_1);
+		JPanel fillPanel_1 = new JPanel();
+		panelValoresTensao.add(fillPanel_1);
 		
-		JPanel panel_3 = new JPanel();
-		panelValoresTensao.add(panel_3);
+		JPanel fillPanel_3 = new JPanel();
+		panelValoresTensao.add(fillPanel_3);
 		
-		JPanel panel_2 = new JPanel();
-		panelValoresTensao.add(panel_2);
+		JPanel fillPanel_2 = new JPanel();
+		panelValoresTensao.add(fillPanel_2);
 		
 		JButton btnAplicarTensao = new JButton("Aplicar");
 		btnAplicarTensao.addActionListener(new ActionListener() {
@@ -185,13 +190,13 @@ public class JanelaUC4 extends JFrame {
 		panelGraficoCorrente.setLayout(new GridLayout(1,1, 0, 0));
 		panelGraficoCorrente.add(graficoCorrente);
 		
-		JPanel panel_5 = new JPanel();
-		panel_5.setBorder(new TitledBorder(null, "Corrente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelCorrente.add(panel_5);
-		panel_5.setLayout(new GridLayout(0, 1, 0, 0));
+		JPanel panelEntradaCorrente = new JPanel();
+		panelEntradaCorrente.setBorder(new TitledBorder(null, "Corrente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelCorrente.add(panelEntradaCorrente);
+		panelEntradaCorrente.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JPanel panelValoresCorrente = new JPanel();
-		panel_5.add(panelValoresCorrente);
+		panelEntradaCorrente.add(panelValoresCorrente);
 		panelValoresCorrente.setLayout(new GridLayout(4, 2, 0, 0));
 		
 		JLabel lblAmplitude = new JLabel("Amplitude");
@@ -215,8 +220,8 @@ public class JanelaUC4 extends JFrame {
 		panelValoresCorrente.add(textOrdemHarmonicaCorrente);
 		textOrdemHarmonicaCorrente.setColumns(10);
 		
-		JPanel panel = new JPanel();
-		panelValoresCorrente.add(panel);
+		JPanel fillPanel = new JPanel();
+		panelValoresCorrente.add(fillPanel);
 		
 		JButton btnAplicarCorrente = new JButton("Aplicar");
 		btnAplicarCorrente.addActionListener(new ActionListener() {
@@ -261,7 +266,13 @@ public class JanelaUC4 extends JFrame {
 					graficoCorrente.setScores(calcUC4.getFormaDeOndaCorrente());
 					graficoTensao.setScores(calcUC4.getFormaDeOndaTensao());
 					graficoPotenciaHarmInst.setScores(calcUC4.getFormaDeOndaPotHarmInst());
+					textPotLiq.setText(String.format("%.2f", calcUC4.getValorPotenciaLiquida()));
+					textPotDis.setText(String.format("%.2f", calcUC4.getValorPotenciaDistorcao()));
+					textTPF.setText(String.format("%.2f", calcUC4.getFatorPotenciaVerdadeiro()));
 				}				
+				catch(IllegalFormatException e) {
+					JOptionPane.showMessageDialog(null, "Não foi possível processar os valores informados!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 				catch(InvalidParameterException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
@@ -292,7 +303,7 @@ public class JanelaUC4 extends JFrame {
 		lblPotnciaLiquida.setBounds(36, 46, 117, 14);
 		panelResultados.add(lblPotnciaLiquida);
 		
-		textPotLiq = new JTextField();
+		
 		textPotLiq.setEditable(false);
 		textPotLiq.setBounds(181, 43, 117, 20);
 		panelResultados.add(textPotLiq);
@@ -302,7 +313,6 @@ public class JanelaUC4 extends JFrame {
 		lblPotDeDist.setBounds(36, 91, 117, 14);
 		panelResultados.add(lblPotDeDist);
 		
-		textPotDis = new JTextField();
 		textPotDis.setEditable(false);
 		textPotDis.setBounds(181, 88, 117, 20);
 		panelResultados.add(textPotDis);
@@ -311,8 +321,7 @@ public class JanelaUC4 extends JFrame {
 		JLabel lblTpf = new JLabel("TPF:");
 		lblTpf.setBounds(36, 133, 117, 14);
 		panelResultados.add(lblTpf);
-		
-		textTPF = new JTextField();
+
 		textTPF.setEditable(false);
 		textTPF.setBounds(181, 130, 117, 20);
 		panelResultados.add(textTPF);

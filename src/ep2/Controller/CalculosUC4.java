@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CalculosUC4 implements Calcular {
-	private double amplitudeTensao, anguloTensao, amplitudeCorrente, anguloCorrente, ordemHarmonicaCorrente;
+	private double amplitudeTensao, anguloTensao, amplitudeCorrente, anguloCorrente, ordemHarmonicaCorrente, valorPotenciaLiquida, valorPotenciaDistorcao, fatorPotenciaVerdadeiro;
 	private List<Double> formaDeOndaCorrente, formaDeOndaTensao, formaDeOndaPotHarmInst, t;
 	
 	private final double w = 2*Math.PI*60;
@@ -31,6 +31,9 @@ public class CalculosUC4 implements Calcular {
 		setFormaDeOndaCorrente();
 		setFormaDeOndaTensao();
 		setFormaDeOndaPotHarmInst();
+		setValorPotenciaLiquida();
+		setValorPotenciaDistorcao();
+		setFatorPotenciaVerdadeiro();
 	}
 
 
@@ -142,6 +145,30 @@ public class CalculosUC4 implements Calcular {
 				formaDeOndaPotHarmInst.add(valor);
 			}
 		}
+	}
+
+	public double getValorPotenciaLiquida() {
+		return valorPotenciaLiquida;
+	}
+
+	private void setValorPotenciaLiquida() {
+		this.valorPotenciaLiquida = 0;
+	}
+
+	public double getValorPotenciaDistorcao() {
+		return valorPotenciaDistorcao;
+	}
+
+	private void setValorPotenciaDistorcao() {
+		this.valorPotenciaDistorcao = amplitudeTensao*amplitudeCorrente;
+	}
+
+	public double getFatorPotenciaVerdadeiro() {
+		return fatorPotenciaVerdadeiro;
+	}
+
+	private void setFatorPotenciaVerdadeiro() {
+		this.fatorPotenciaVerdadeiro = (amplitudeTensao*amplitudeCorrente*Math.cos(Math.toRadians(anguloCorrente)+Math.toRadians(anguloTensao)))/(amplitudeTensao*amplitudeCorrente);
 	}
 
 }
