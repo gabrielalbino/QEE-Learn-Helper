@@ -27,7 +27,7 @@
 
 > + Interface: Foi criada uma interface para as classes de calculo que contem a função para calcular, nos Calculos de cada uso de caso ela é implementada de modo que calcule todos os requisitos necessários.
 
-> + Testes unitários: Não implementado ainda.
+> + Testes unitários: Foi implementado teste unitário na classe CalculosUC2
 
 > + Resolução do Problema: Todos os dados de saída do programa foram compatíveis com os resultados disponíveis no documento de visão.
 
