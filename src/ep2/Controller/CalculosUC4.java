@@ -18,10 +18,11 @@ public class CalculosUC4 implements Calcular {
 		ordemHarmonicaCorrente = 0;
 		formaDeOndaCorrente = new ArrayList<>();
 		formaDeOndaTensao = new ArrayList<>();
+		formaDeOndaPotHarmInst = new ArrayList<>();
 		t = new ArrayList<>();
-		while(i <= 10.f) {
+		while(i <= 0.1) {
 			t.add(i);
-			i += 0.1;
+			i += 0.0005;
 		}
 	}
 	
@@ -29,6 +30,7 @@ public class CalculosUC4 implements Calcular {
 	public void calcular() {
 		setFormaDeOndaCorrente();
 		setFormaDeOndaTensao();
+		setFormaDeOndaPotHarmInst();
 	}
 
 
@@ -107,7 +109,7 @@ public class CalculosUC4 implements Calcular {
 		double valor;
 		formaDeOndaCorrente.clear();
 		for(int i = 0; i < t.size(); i++) {
-			valor = amplitudeCorrente*Math.cos(ordemHarmonicaCorrente*w*t.get(i)*Math.toRadians(anguloCorrente));
+			valor = amplitudeCorrente*Math.cos(ordemHarmonicaCorrente*w*t.get(i)+Math.toRadians(anguloCorrente));
 			formaDeOndaCorrente.add(valor);
 		}
 	}
@@ -122,7 +124,7 @@ public class CalculosUC4 implements Calcular {
 		double valor;
 		formaDeOndaTensao.clear();
 		for(int i = 0; i < t.size(); i++) {
-			valor = amplitudeTensao*Math.cos(w*t.get(i)*Math.toRadians(anguloTensao));
+			valor = amplitudeTensao*Math.cos(w*t.get(i)+Math.toRadians(anguloTensao));
 			formaDeOndaTensao.add(valor);
 		}
 	}
@@ -137,7 +139,7 @@ public class CalculosUC4 implements Calcular {
 		for(int i = 0; i < formaDeOndaTensao.size(); i++) {
 			if(formaDeOndaTensao.size() > i && formaDeOndaCorrente.size() > i) {
 				valor = formaDeOndaTensao.get(i)*formaDeOndaCorrente.get(i);
-				formaDeOndaTensao.add(valor);
+				formaDeOndaPotHarmInst.add(valor);
 			}
 		}
 	}

@@ -26,9 +26,9 @@ public class CalculosUC2 implements Calcular {
 		FormaDeOndaCorrente = new ArrayList<>();
 		FormaDeOndaPotenciaInstantanea = new ArrayList<>();
 		t = new ArrayList<>();
-		while(i <= 10.f) {
+		while(i <= 0.1) {
 			t.add(i);
-			i += 0.1;
+			i += 0.0005;
 		}
 	}
 	@Override
@@ -117,7 +117,7 @@ public class CalculosUC2 implements Calcular {
 		double valor;
 		FormaDeOndaTensao.clear();
 		for(int i = 0; i < t.size(); i++) {
-			valor = Vrms*Math.cos(w*t.get(i)*Math.toRadians(angV));
+			valor = Vrms*Math.cos(w*t.get(i)+Math.toRadians(angV));
 			FormaDeOndaTensao.add(valor);
 		}
 	}
@@ -125,7 +125,7 @@ public class CalculosUC2 implements Calcular {
 		double valor;
 		FormaDeOndaCorrente.clear();
 		for(int i = 0; i < t.size(); i++) {
-			valor = Irms*Math.cos(w*t.get(i)*Math.toRadians(angI));
+			valor = Irms*Math.cos(w*t.get(i)+Math.toRadians(angI));
 			FormaDeOndaCorrente.add(valor);
 		}
 	}

@@ -39,9 +39,9 @@ public class CalculosUC3 implements Calcular{
 		angVh = new double[6];
 		ordemHarmonica = new int[6];
 		t = new ArrayList<>();
-		while(i <= 10.f) {
+		while(i <= 0.1) {
 			t.add(i);
-			i += 0.05;
+			i += 0.0005;
 		}
 	}
 	
@@ -97,14 +97,14 @@ public class CalculosUC3 implements Calcular{
 	private void setFormaDeOndaDaFundamental() {
 		FormaDeOndaDaFundamental.clear();
 		for(int i = 0; i < t.size(); i++)
-			FormaDeOndaDaFundamental.add(Vrms*Math.cos(w*t.get(i)*Math.toRadians(angV)));
+			FormaDeOndaDaFundamental.add(Vrms*Math.cos(w*t.get(i)+Math.toRadians(angV)));
 	}
 
 	private void setFormaDeOndaDaOrdemHarmonicaH1() {
 		FormaDeOndaDaOrdemHarmonicaH1.clear();
 		int i;
 		for(i = 0; i < t.size(); i++) {
-				FormaDeOndaDaOrdemHarmonicaH1.add(Vrmsh[0]*Math.cos(ordemHarmonica[0]*w*t.get(i)*Math.toRadians(angVh[0])));
+				FormaDeOndaDaOrdemHarmonicaH1.add(Vrmsh[0]*Math.cos(ordemHarmonica[0]*w*t.get(i)+Math.toRadians(angVh[0])));
 			}
 		}
 	public List<Double> getFormaDeOndaDaOrdemHarmonicaH1() {
@@ -134,7 +134,7 @@ public class CalculosUC3 implements Calcular{
 		FormaDeOndaDaOrdemHarmonicaH6.clear();
 		int i;
 		for(i = 0; i < t.size(); i++) {
-				FormaDeOndaDaOrdemHarmonicaH6.add(Vrmsh[5]*Math.cos(ordemHarmonica[5]*w*t.get(i)*Math.toRadians(angVh[5])));
+				FormaDeOndaDaOrdemHarmonicaH6.add(Vrmsh[5]*Math.cos(ordemHarmonica[5]*w*t.get(i)+Math.toRadians(angVh[5])));
 			}
 		}
 
@@ -142,7 +142,7 @@ public class CalculosUC3 implements Calcular{
 		FormaDeOndaDaOrdemHarmonicaH5.clear();
 		int i;
 		for(i = 0; i < t.size(); i++) {
-				FormaDeOndaDaOrdemHarmonicaH5.add(Vrmsh[4]*Math.cos(ordemHarmonica[4]*w*t.get(i)*Math.toRadians(angVh[4])));
+				FormaDeOndaDaOrdemHarmonicaH5.add(Vrmsh[4]*Math.cos(ordemHarmonica[4]*w*t.get(i)+Math.toRadians(angVh[4])));
 			}
 		}
 
@@ -150,7 +150,7 @@ public class CalculosUC3 implements Calcular{
 		FormaDeOndaDaOrdemHarmonicaH4.clear();
 		int i;
 		for(i = 0; i < t.size(); i++) {
-				FormaDeOndaDaOrdemHarmonicaH4.add(Vrmsh[3]*Math.cos(ordemHarmonica[3]*w*t.get(i)*Math.toRadians(angVh[3])));
+				FormaDeOndaDaOrdemHarmonicaH4.add(Vrmsh[3]*Math.cos(ordemHarmonica[3]*w*t.get(i)+Math.toRadians(angVh[3])));
 			}
 		}
 
@@ -158,7 +158,7 @@ public class CalculosUC3 implements Calcular{
 		FormaDeOndaDaOrdemHarmonicaH3.clear();
 		int i;
 		for(i = 0; i < t.size(); i++) {
-				FormaDeOndaDaOrdemHarmonicaH3.add(Vrmsh[2]*Math.cos(ordemHarmonica[2]*w*t.get(i)*Math.toRadians(angVh[2])));
+				FormaDeOndaDaOrdemHarmonicaH3.add(Vrmsh[2]*Math.cos(ordemHarmonica[2]*w*t.get(i)+Math.toRadians(angVh[2])));
 			}
 		}
 
@@ -166,7 +166,7 @@ public class CalculosUC3 implements Calcular{
 		FormaDeOndaDaOrdemHarmonicaH2.clear();
 		int i;
 		for(i = 0; i < t.size(); i++) {
-				FormaDeOndaDaOrdemHarmonicaH2.add(Vrmsh[1]*Math.cos(ordemHarmonica[1]*w*t.get(i)*Math.toRadians(angVh[1])));
+				FormaDeOndaDaOrdemHarmonicaH2.add(Vrmsh[1]*Math.cos(ordemHarmonica[1]*w*t.get(i)+Math.toRadians(angVh[1])));
 			}
 		}
 
