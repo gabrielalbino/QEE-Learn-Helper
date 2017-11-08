@@ -17,7 +17,7 @@
 > + Clique com o botão direito no projeto -> Run as -> Java application
 
 > Requisitos implementados:
-> + Modelagem: Não implementado ainda
+> + Modelagem: O diagrama de classes UML encontra-se na pasta de documentação do software
 
 > + MVC: O código fonte do projeto foi dividido em 3 partes: Model, View e Controller, sendo que na pasta View se encontra os arquivos que possuem entrada ou saída de dados, na pasta Controller encontram-se as classes que armazenam valores e realizam calculo e na pasta Model encontra-se os arquivos que fazem a ligação entre o View e o controller.
 
