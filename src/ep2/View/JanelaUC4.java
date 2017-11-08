@@ -10,6 +10,7 @@ import ep2.Controller.GraphPanel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JInternalFrame;
 
@@ -21,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class JanelaUC4 extends JFrame {
@@ -29,6 +31,7 @@ public class JanelaUC4 extends JFrame {
 	
 	private GraphPanel graficoCorrente;
 	private GraphPanel graficoTensao;
+	private GraphPanel graficoPotenciaHarmInst;
 	
 	private JPanel contentPane;
 	private JTextField txtDicaClicarNo;
@@ -43,39 +46,6 @@ public class JanelaUC4 extends JFrame {
 
 	public JanelaUC4() {
 		calcUC4 = new CalculosUC4();
-		
-		graficoCorrente = new GraphPanel(calcUC4.getFormaDeOndaCorrente());
-		graficoCorrente.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							GraficoExpandido frame = new GraficoExpandido(calcUC4.getFormaDeOndaCorrente());
-							frame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
-			}
-		});
-		graficoTensao = new GraphPanel(calcUC4.getFormaDeOndaTensao());
-		graficoTensao.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							GraficoExpandido frame = new GraficoExpandido(calcUC4.getFormaDeOndaTensao());
-							frame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
-			}
-		});
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(0, 0, 1024, 768);
@@ -94,18 +64,40 @@ public class JanelaUC4 extends JFrame {
 		contentPane.add(btnVoltar);
 		
 		txtDicaClicarNo = new JTextField();
+		txtDicaClicarNo.setHorizontalAlignment(SwingConstants.CENTER);
 		txtDicaClicarNo.setText("Dica: Clicar no gr\u00E1fico ir\u00E1 expandi-lo!");
-		txtDicaClicarNo.setBounds(10, 699, 325, 20);
+		txtDicaClicarNo.setBounds(384, 541, 239, 20);
 		contentPane.add(txtDicaClicarNo);
 		txtDicaClicarNo.setColumns(10);
 		
 		JInternalFrame EntradasFrame = new JInternalFrame("Entradas");
-		EntradasFrame.setBounds(10, 45, 988, 202);
+		EntradasFrame.setBounds(10, 45, 988, 243);
 		contentPane.add(EntradasFrame);
-		EntradasFrame.getContentPane().setLayout(new GridLayout(1, 0, 10, 0));
+		EntradasFrame.getContentPane().setLayout(null);
+		
+		JPanel panelEntradas = new JPanel();
+		panelEntradas.setBounds(0, 0, 972, 173);
+		EntradasFrame.getContentPane().add(panelEntradas);
+		graficoTensao = new GraphPanel(calcUC4.getFormaDeOndaTensao());
+		graficoTensao.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							GraficoExpandido frame = new GraficoExpandido(calcUC4.getFormaDeOndaTensao());
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
+		panelEntradas.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		JPanel panelTensao = new JPanel();
-		EntradasFrame.getContentPane().add(panelTensao);
+		panelEntradas.add(panelTensao);
 		panelTensao.setLayout(new GridLayout(0, 2, 5, 0));
 		
 		JPanel panelGraficoTensao = new JPanel();
@@ -167,8 +159,25 @@ public class JanelaUC4 extends JFrame {
 		});
 		panelValoresTensao.add(btnAplicarTensao);
 		
+		graficoCorrente = new GraphPanel(calcUC4.getFormaDeOndaCorrente());
+		graficoCorrente.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							GraficoExpandido frame = new GraficoExpandido(calcUC4.getFormaDeOndaCorrente());
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+		});
+		
 		JPanel panelCorrente = new JPanel();
-		EntradasFrame.getContentPane().add(panelCorrente);
+		panelEntradas.add(panelCorrente);
 		panelCorrente.setLayout(new GridLayout(1, 2, 5, 5));
 		
 		JPanel panelGraficoCorrente = new JPanel();
@@ -233,46 +242,79 @@ public class JanelaUC4 extends JFrame {
 		});
 		panelValoresCorrente.add(btnAplicarCorrente);
 		
+		JButton btnSimular = new JButton("Simular");
+		btnSimular.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					double valorAmpCorrente, valorAngCorrente, valorOrdemHarmonica, valorAmpTensao, valorAngTensao;
+					valorAmpTensao = Double.parseDouble(textAmplitudeTensao.getText());
+					valorAngTensao = Double.parseDouble(textAnguloTensao.getText());
+					valorAmpCorrente = Double.parseDouble(textAmplitudeCorrente.getText());
+					valorAngCorrente = Double.parseDouble(textAnguloCorrente.getText());
+					valorOrdemHarmonica = Double.parseDouble(textOrdemHarmonicaCorrente.getText());
+					calcUC4.setAmplitudeTensao(valorAmpTensao);
+					calcUC4.setAnguloTensao(valorAngTensao);
+					calcUC4.setAmplitudeCorrente(valorAmpCorrente);
+					calcUC4.setAnguloCorrente(valorAngCorrente);
+					calcUC4.setOrdemHarmonicaCorrente(valorOrdemHarmonica);
+					calcUC4.calcular();
+					graficoCorrente.setScores(calcUC4.getFormaDeOndaCorrente());
+					graficoTensao.setScores(calcUC4.getFormaDeOndaTensao());
+					graficoPotenciaHarmInst.setScores(calcUC4.getFormaDeOndaPotHarmInst());
+				}				
+				catch(InvalidParameterException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				catch(NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "O valor inserido não é um número!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btnSimular.setBounds(428, 180, 116, 23);
+		EntradasFrame.getContentPane().add(btnSimular);
+		
 		JInternalFrame internalFrame = new JInternalFrame("Resultados");
-		internalFrame.setBounds(10, 258, 988, 434);
+		internalFrame.setBounds(176, 299, 655, 226);
 		contentPane.add(internalFrame);
 		internalFrame.getContentPane().setLayout(new GridLayout(1, 0, 10, 0));
 		
 		JPanel panelGraficoPotInst = new JPanel();
 		internalFrame.getContentPane().add(panelGraficoPotInst);
 		panelGraficoPotInst.setLayout(new GridLayout(1, 1, 0, 0));
+		graficoPotenciaHarmInst = new GraphPanel(new ArrayList<>());
+		panelGraficoPotInst.add(graficoPotenciaHarmInst);
 		
 		JPanel panelResultados = new JPanel();
 		internalFrame.getContentPane().add(panelResultados);
 		panelResultados.setLayout(null);
 		
 		JLabel lblPotnciaLiquida = new JLabel("Pot\u00EAncia Liquida:");
-		lblPotnciaLiquida.setBounds(30, 66, 117, 14);
+		lblPotnciaLiquida.setBounds(36, 46, 117, 14);
 		panelResultados.add(lblPotnciaLiquida);
 		
 		textPotLiq = new JTextField();
 		textPotLiq.setEditable(false);
-		textPotLiq.setBounds(150, 63, 100, 20);
+		textPotLiq.setBounds(181, 43, 117, 20);
 		panelResultados.add(textPotLiq);
 		textPotLiq.setColumns(10);
 		
 		JLabel lblPotDeDist = new JLabel("Pot\u00EAncia de distor\u00E7\u00E3o:");
-		lblPotDeDist.setBounds(30, 101, 140, 14);
+		lblPotDeDist.setBounds(36, 91, 117, 14);
 		panelResultados.add(lblPotDeDist);
 		
 		textPotDis = new JTextField();
 		textPotDis.setEditable(false);
-		textPotDis.setBounds(150, 98, 100, 20);
+		textPotDis.setBounds(181, 88, 117, 20);
 		panelResultados.add(textPotDis);
 		textPotDis.setColumns(10);
 		
 		JLabel lblTpf = new JLabel("TPF:");
-		lblTpf.setBounds(36, 130, 46, 14);
+		lblTpf.setBounds(36, 133, 117, 14);
 		panelResultados.add(lblTpf);
 		
 		textTPF = new JTextField();
 		textTPF.setEditable(false);
-		textTPF.setBounds(150, 131, 100, 20);
+		textTPF.setBounds(181, 130, 117, 20);
 		panelResultados.add(textTPF);
 		textTPF.setColumns(10);
 		internalFrame.setVisible(true);
