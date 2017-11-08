@@ -1,4 +1,4 @@
-package ep2.Controller;
+package ep2.View;
 
 import java.awt.Color;
 import java.awt.Graphics;

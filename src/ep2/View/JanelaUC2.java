@@ -14,8 +14,6 @@ import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
 
 import ep2.Controller.CalculosUC2;
-import ep2.Controller.GraphPanel;
-import ep2.Controller.TrianguloDraw;
 
 import java.awt.GridLayout;
 import java.awt.Color;

@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import ep2.Controller.CalculosUC3;
-import ep2.Controller.GraphPanel;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
