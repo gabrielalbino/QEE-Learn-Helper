@@ -37,4 +37,4 @@
 
 > + Uso do repositório e Versionamento: Todas as mudanças foram commitadas com comentários precisos e coerentes.
 
-> + Threads: Não implementado ainda
+> + Threads: Não implementado.
