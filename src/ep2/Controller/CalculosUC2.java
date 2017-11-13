@@ -4,32 +4,14 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ep2.Model.UC2Values;
+
 public class CalculosUC2 implements Calcular {
-	private double Vrms;
-	private double Irms;
-	private double angV;
-	private double angI;
-	private double valorPotenciaAtiva;
-	private double valorPotenciaReativa;
-	private double valorPotenciaAparente;
-	private double valorDoFatorDePotencia;
-	private List<Double> FormaDeOndaTensao; 
-	private List<Double> FormaDeOndaCorrente;
-	private List<Double> FormaDeOndaPotenciaInstantanea;
-	private List<Double> t;
-	
+	UC2Values vars;	
 	private final double w = 2*Math.PI*60;
 	
 	public CalculosUC2(){
-		double i = 0;
-		FormaDeOndaTensao = new ArrayList<>();
-		FormaDeOndaCorrente = new ArrayList<>();
-		FormaDeOndaPotenciaInstantanea = new ArrayList<>();
-		t = new ArrayList<>();
-		while(i <= 0.1) {
-			t.add(i);
-			i += 0.0005;
-		}
+		vars = new UC2Values();
 	}
 	@Override
 	public void calcular() {
@@ -42,100 +24,108 @@ public class CalculosUC2 implements Calcular {
 		setFormaDeOndaPotenciaInstantanea();
 	}
 	public double getVrms() {
-		return Vrms;
+		return vars.getVrms();
 	}
 	public void setVrms(double vrms) throws InvalidParameterException{
 		if(vrms >= 0 && vrms <= 220)
-			Vrms = vrms;
+			vars.setVrms(vrms);
 		else
 			throw new InvalidParameterException("O valor da amplitude da Tensão deve estar entre 0 e 220!");
 	}
 	public double getIrms() {
-		return Irms;
+		return vars.getIrms();
 	}
 	public void setIrms(double irms) throws InvalidParameterException{
 		if(irms >= 0 && irms <= 100)
-			Irms = irms;
+			vars.setIrms(irms);
 		else
 			throw new InvalidParameterException("O valor da amplitude da corrente deve estar entre 0 e 100!");
 	}
 	public double getAngV() {
-		return angV;
+		return vars.getAngV();
 	}
 	public void setAngV(double angV)  throws InvalidParameterException{
 		if(angV >= -180 && angV <= 180)
-			this.angV = angV;
+			vars.setAngV(angV);
 		else
 			throw new InvalidParameterException("O valor do angulo da corrente deve estar entre -180� e 180�!");
 	}
 	public double getAngI() {
-		return angI;
+		return vars.getAngI();
 	}
 	public void setAngI(double angI)  throws InvalidParameterException{
 		if(angI >= -180 && angI <= 180)
-			this.angI = angI;
+			vars.setAngI(angI);
 		else
 			throw new InvalidParameterException("O valor do angulo da tens�o deve estar entre -180� e 180�!");
 	}
 	
 	public double getValorPotenciaAtiva() {
-		return valorPotenciaAtiva;
+		return vars.getValorPotenciaAtiva();
 	}
 	public double getValorPotenciaReativa() {
-		return valorPotenciaReativa;
+		return vars.getValorPotenciaReativa();
 	}
 	public double getValorPotenciaAparente() {
-		return valorPotenciaAparente;
+		return vars.getValorPotenciaAparente();
 	}
 	public double getValorDoFatorDePotencia() {
-		return valorDoFatorDePotencia;
+		return vars.getValorDoFatorDePotencia();
 	}
 	public List<Double> getFormaDeOndaPotenciaInstantanea() {
-		return FormaDeOndaPotenciaInstantanea;
+		return vars.getFormaDeOndaPotenciaInstantanea();
 	}
 	public List<Double> getFormaDeOndaCorrente() {
-		return FormaDeOndaCorrente;
+		return vars.getFormaDeOndaCorrente();
 	}
 	public List<Double> getFormaDeOndaTensao() {
-		return FormaDeOndaTensao;
+		return vars.getFormaDeOndaTensao();
 	}
 	
 	
 	private void setValorPotenciaAtiva() {
-		valorPotenciaAtiva = Vrms*Irms*Math.cos(Math.toRadians(angV)-Math.toRadians(angI));
+		vars.setValorPotenciaAtiva(vars.getVrms()*vars.getIrms()*Math.cos(Math.toRadians(vars.getAngV())-Math.toRadians(vars.getAngI())));
 	}
 	private void setValorPotenciaReativa() {
-		valorPotenciaReativa = Vrms*Irms*Math.sin(Math.toRadians(angV)-Math.toRadians(angI));
+		vars.setValorPotenciaReativa(vars.getVrms()*vars.getIrms()*Math.sin(Math.toRadians(vars.getAngV())-Math.toRadians(vars.getAngI())));
 	}
 	private void setValorPotenciaAparente() {
-		valorPotenciaAparente = Vrms*Irms;
+		vars.setValorPotenciaAparente(vars.getVrms()*vars.getIrms());
 	}
 	private void setValorDoFatorDePotencia() {
-		valorDoFatorDePotencia = Math.cos(Math.toRadians(angV)-Math.toRadians(angI));
+		vars.setValorDoFatorDePotencia(Math.cos(Math.toRadians(vars.getAngV())-Math.toRadians(vars.getAngI())));
 	}
 	private void setFormaDeOndaTensao() {
 		double valor;
-		FormaDeOndaTensao.clear();
+		List<Double> FormaDeOndaTensao = new ArrayList<>();
+		FormaDeOndaTensao .clear();
+		List<Double> t = vars.getT();
 		for(int i = 0; i < t.size(); i++) {
-			valor = Vrms*Math.cos(w*t.get(i)+Math.toRadians(angV));
+			valor = vars.getVrms()*Math.cos(w*t.get(i)+Math.toRadians(vars.getAngV()));
 			FormaDeOndaTensao.add(valor);
 		}
+		vars.setFormaDeOndaTensao(FormaDeOndaTensao);
 	}
 	private void setFormaDeOndaCorrente() {
 		double valor;
+		List<Double> FormaDeOndaCorrente = new ArrayList<>();
 		FormaDeOndaCorrente.clear();
-		for(int i = 0; i < t.size(); i++) {
-			valor = Irms*Math.cos(w*t.get(i)+Math.toRadians(angI));
+		List<Double> t = vars.getT();
+		for(int i = 0; i < t .size(); i++) {
+			valor = vars.getIrms()*Math.cos(w*t.get(i)+Math.toRadians(vars.getAngI()));
 			FormaDeOndaCorrente.add(valor);
 		}
+		vars.setFormaDeOndaCorrente(FormaDeOndaCorrente);
 	}
 	private void setFormaDeOndaPotenciaInstantanea() {
 		double valor;
-		FormaDeOndaPotenciaInstantanea.clear();
-		for(int i = 0; i < FormaDeOndaCorrente.size(); i++) {
-			valor = FormaDeOndaCorrente.get(i)*FormaDeOndaTensao.get(i);
+		List<Double> FormaDeOndaPotenciaInstantanea = new ArrayList<>();
+		FormaDeOndaPotenciaInstantanea .clear();
+		for(int i = 0; i < vars.getFormaDeOndaCorrente().size(); i++) {
+			valor = vars.getFormaDeOndaCorrente().get(i)*vars.getFormaDeOndaTensao().get(i);
 			FormaDeOndaPotenciaInstantanea.add(valor);
 		}
+		vars.setFormaDeOndaPotenciaInstantanea(FormaDeOndaPotenciaInstantanea);
 	}
 	
 

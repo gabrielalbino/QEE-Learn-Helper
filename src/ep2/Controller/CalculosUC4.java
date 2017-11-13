@@ -4,26 +4,16 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ep2.Model.UC4Values;
+
 public class CalculosUC4 implements Calcular {
-	private double amplitudeTensao, anguloTensao, amplitudeCorrente, anguloCorrente, ordemHarmonicaCorrente, valorPotenciaLiquida, valorPotenciaDistorcao, fatorPotenciaVerdadeiro;
-	private List<Double> formaDeOndaCorrente, formaDeOndaTensao, formaDeOndaPotHarmInst, t;
-	
+
 	private final double w = 2*Math.PI*60;
 	
+	UC4Values vars;
+	
 	public CalculosUC4() {
-		double i = 0;
-		amplitudeTensao = 0;
-		amplitudeCorrente = 0;
-		anguloCorrente = 0;
-		ordemHarmonicaCorrente = 0;
-		formaDeOndaCorrente = new ArrayList<>();
-		formaDeOndaTensao = new ArrayList<>();
-		formaDeOndaPotHarmInst = new ArrayList<>();
-		t = new ArrayList<>();
-		while(i <= 0.1) {
-			t.add(i);
-			i += 0.0005;
-		}
+		vars = new UC4Values();
 	}
 	
 	@Override
@@ -38,13 +28,13 @@ public class CalculosUC4 implements Calcular {
 
 
 	public double getAmplitudeTensao() {
-		return amplitudeTensao;
+		return vars.getAmplitudeTensao();
 	}
 
 
 	public void setAmplitudeTensao(double amplitudeTensao) throws InvalidParameterException {
 		if(amplitudeTensao >= 0 && amplitudeTensao <= 220)
-			this.amplitudeTensao = amplitudeTensao;
+			vars.setAmplitudeTensao(amplitudeTensao);
 		else{
 			throw new InvalidParameterException("O valor da amplitude da tensão deve estar entre 0 e 220!");
 		}
@@ -52,123 +42,131 @@ public class CalculosUC4 implements Calcular {
 
 
 	public double getAnguloTensao() {
-		return anguloTensao;
+		return vars.getAnguloTensao();
 	}
 
 
 	public void setAnguloTensao(double anguloTensao) throws InvalidParameterException {
 		if(anguloTensao >= -180 && anguloTensao <= 180 )
-			this.anguloTensao = anguloTensao;
+			vars.setAnguloTensao(anguloTensao);
 		else
 			throw new InvalidParameterException("O angulo da tensão deve estar entre -180º e 180º!");
 	}
 
 
 	public double getAmplitudeCorrente() {
-		return amplitudeCorrente;
+		return vars.getAmplitudeCorrente();
 	}
 
 
 	public void setAmplitudeCorrente(double amplitudeCorrente) throws InvalidParameterException {
 		if(amplitudeCorrente >= 0&& amplitudeCorrente <= 100)
-			this.amplitudeCorrente = amplitudeCorrente;
+			vars.setAmplitudeCorrente(amplitudeCorrente);
 		else
 			throw new InvalidParameterException("O valor da amplitude da corrente deve estar entre 0 e 100!");
 	}
 
 
 	public double getAnguloCorrente() {
-		return anguloCorrente;
+		return vars.getAnguloCorrente();
 	}
 
 
 	public void setAnguloCorrente(double anguloCorrente) throws InvalidParameterException {
 		if(anguloCorrente >= -180 && anguloCorrente <= 180 )
-			this.anguloCorrente = anguloCorrente;
+			vars.setAnguloCorrente(anguloCorrente);
 		else
 			throw new InvalidParameterException("O angulo da corrente deve estar entre -180º e 180º!");
 	}
 
 
 	public double getOrdemHarmonicaCorrente() {
-		return ordemHarmonicaCorrente;
+		return vars.getOrdemHarmonicaCorrente();
 	}
 
 
 	public void setOrdemHarmonicaCorrente(double ordemHarmonicaCorrente) throws InvalidParameterException{
 		if(ordemHarmonicaCorrente >= 0 && ordemHarmonicaCorrente <= 15)
-			this.ordemHarmonicaCorrente = ordemHarmonicaCorrente;
+			vars.setOrdemHarmonicaCorrente(ordemHarmonicaCorrente);
 		else
 			throw new InvalidParameterException("O valor da Ordem Harmônica da corrente deve estar entre 0 e 15");
 	}
 
 
 	public List<Double> getFormaDeOndaCorrente() {
-		return formaDeOndaCorrente;
+		return vars.getFormaDeOndaCorrente();
 	}
 
 
 	private void setFormaDeOndaCorrente() {
 		double valor;
-		formaDeOndaCorrente.clear();
-		for(int i = 0; i < t.size(); i++) {
-			valor = amplitudeCorrente*Math.cos(ordemHarmonicaCorrente*w*t.get(i)+Math.toRadians(anguloCorrente));
+		List<Double> formaDeOndaCorrente = new ArrayList<>();
+		formaDeOndaCorrente .clear();
+		List<Double> t = vars.getT();
+		for(int i = 0; i < t .size(); i++) {
+			valor = vars.getAmplitudeCorrente()*Math.cos(vars.getOrdemHarmonicaCorrente()*w*t.get(i)+Math.toRadians(vars.getAnguloCorrente()));
 			formaDeOndaCorrente.add(valor);
 		}
+		vars.setFormaDeOndaCorrente(formaDeOndaCorrente);
 	}
 
 
 	public List<Double> getFormaDeOndaTensao() {
-		return formaDeOndaTensao;
+		return vars.getFormaDeOndaTensao();
 	}
 
 
 	private void setFormaDeOndaTensao() {
 		double valor;
-		formaDeOndaTensao.clear();
-		for(int i = 0; i < t.size(); i++) {
-			valor = amplitudeTensao*Math.cos(w*t.get(i)+Math.toRadians(anguloTensao));
+		List<Double> formaDeOndaTensao = new ArrayList<>();
+		formaDeOndaTensao .clear();
+		List<Double> t = vars.getT();
+		for(int i = 0; i < t .size(); i++) {
+			valor = vars.getAmplitudeTensao()*Math.cos(w*t.get(i)+Math.toRadians(vars.getAnguloTensao()));
 			formaDeOndaTensao.add(valor);
 		}
+		vars.setFormaDeOndaTensao(formaDeOndaTensao);
 	}
 
 	public List<Double> getFormaDeOndaPotHarmInst() {
-		return formaDeOndaPotHarmInst;
+		return vars.getFormaDeOndaPotHarmInst();
 	}
 
 	private void setFormaDeOndaPotHarmInst() {
 		double valor;
-		formaDeOndaPotHarmInst.clear();
-		for(int i = 0; i < formaDeOndaTensao.size(); i++) {
-			if(formaDeOndaTensao.size() > i && formaDeOndaCorrente.size() > i) {
-				valor = formaDeOndaTensao.get(i)*formaDeOndaCorrente.get(i);
+		List<Double> formaDeOndaPotHarmInst = new ArrayList<>();
+		formaDeOndaPotHarmInst .clear();
+		for(int i = 0; i < vars.getFormaDeOndaTensao().size(); i++) {
+			if( vars.getFormaDeOndaTensao().size() > i && vars.getFormaDeOndaCorrente().size() > i) {
+				valor = vars.getFormaDeOndaTensao().get(i)*vars.getFormaDeOndaCorrente().get(i);
 				formaDeOndaPotHarmInst.add(valor);
 			}
 		}
+		vars.setFormaDeOndaPotHarmInst(formaDeOndaPotHarmInst);
 	}
 
 	public double getValorPotenciaLiquida() {
-		return valorPotenciaLiquida;
+		return vars.getValorPotenciaLiquida();
 	}
 
 	private void setValorPotenciaLiquida() {
-		this.valorPotenciaLiquida = 0;
+		vars.setValorPotenciaLiquida(0.0);
 	}
 
 	public double getValorPotenciaDistorcao() {
-		return valorPotenciaDistorcao;
+		return vars.getValorPotenciaDistorcao();
 	}
 
 	private void setValorPotenciaDistorcao() {
-		this.valorPotenciaDistorcao = amplitudeTensao*amplitudeCorrente;
+		vars.setValorPotenciaDistorcao(vars.getAmplitudeTensao()*vars.getAmplitudeCorrente());
 	}
 
 	public double getFatorPotenciaVerdadeiro() {
-		return fatorPotenciaVerdadeiro;
+		return vars.getFatorPotenciaVerdadeiro();
 	}
 
 	private void setFatorPotenciaVerdadeiro() {
-		this.fatorPotenciaVerdadeiro = (amplitudeTensao*amplitudeCorrente*Math.cos(Math.toRadians(anguloCorrente)+Math.toRadians(anguloTensao)))/(amplitudeTensao*amplitudeCorrente);
+		vars.setFatorPotenciaVerdadeiro((vars.getAmplitudeTensao()*vars.getAmplitudeCorrente()*Math.cos(Math.toRadians(vars.getAnguloCorrente()+Math.toRadians(vars.getAnguloTensao()))))/vars.getAmplitudeTensao()*vars.getAmplitudeCorrente());
 	}
 
 }
